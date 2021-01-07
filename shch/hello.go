@@ -11,16 +11,15 @@ func Sqrt(f float64) (float64, error) {
 		return 0, errors.New("math: square root of negative number")
 	}
 	// 实现
-	return math.Sqrt(f),nil
+	return math.Sqrt(f), nil
 }
 
 func Factori(k int) int {
-	if k==1{
+	if k == 1 {
 		return 1
 	}
-	return k*Factori(k-1)
+	return k * Factori(k-1)
 }
-
 
 func main() {
 	for a := 1; a < 10; a++ {
@@ -31,8 +30,8 @@ func main() {
 	}
 	var a int = 10
 	fmt.Printf("变量的地址: %x\n", &a)
-	var result,err=Sqrt(3213)
-	if err==nil{
+	var result, err = Sqrt(3213)
+	if err == nil {
 		fmt.Println(result)
 	}
 	fmt.Println(Factori(5))
