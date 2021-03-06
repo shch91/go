@@ -14,11 +14,11 @@ func Sqrt(f float64) (float64, error) {
 	return math.Sqrt(f), nil
 }
 
-func Factori(k int) int {
+func Fact( k int) int {
 	if k == 1 {
 		return 1
 	}
-	return k * Factori(k-1)
+	return k * Fact(k-1)
 }
 
 func main() {
@@ -34,5 +34,5 @@ func main() {
 	if err == nil {
 		fmt.Println(result)
 	}
-	fmt.Println(Factori(5))
+	fmt.Println(Fact(10))
 }
