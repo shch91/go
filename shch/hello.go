@@ -21,6 +21,7 @@ func Factori(k int) int {
 	return k * Factori(k-1)
 }
 
+
 func main() {
 	for a := 1; a < 10; a++ {
 		for b := 1; b <= a; b++ {
@@ -28,8 +29,7 @@ func main() {
 		}
 		fmt.Println()
 	}
-	var a int = 10
-	fmt.Printf("变量的地址: %x\n", &a)
+	
 	var result, err = Sqrt(3213)
 	if err == nil {
 		fmt.Println(result)
