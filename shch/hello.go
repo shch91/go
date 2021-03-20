@@ -12,11 +12,12 @@ type TreeNode struct {
 	val   int
 }
 
-func levelOrder(node *TreeNode)  {
-	if node == nil{
-		return
+func sum(s []int, c chan int) {
+	sum := 0
+	for _, v := range s {
+		sum += v
 	}
-
+	c <- sum
 }
 
 func Sqrt(f float64) (float64, error) {
@@ -42,9 +43,18 @@ func main() {
 		fmt.Println()
 	}
 
+	slice := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+
+	for k, v := range slice {
+		fmt.Println(k, v)
+	}
+
 	var result, err = Sqrt(3213)
 	if err == nil {
 		fmt.Println(result)
 	}
+	s := []int{7, 2, 4342, 43}
+	c := make(chan int)
+	sum(s, c)
 	fmt.Println(Fact(10))
 }
