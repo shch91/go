@@ -4,6 +4,9 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"reflect"
+	"strings"
+	"unsafe"
 )
 
 type TreeNode struct {
@@ -37,8 +40,12 @@ func Fact(k int) int {
 
 func main() {
 
-	fmt.Println("的所发生的")
-
+	got:=strings.Split("a:b:c",":")
+	want := []string{"a", "b", "c"}
+	if reflect.DeepEqual(got,want){
+		fmt.Println("got == want")
+	}
+	fmt.Println(unsafe.Sizeof(float64(0)))
 
 	for a := 1; a < 10; a++ {
 		for b := 1; b <= a; b++ {
@@ -47,18 +54,6 @@ func main() {
 		fmt.Println()
 	}
 
-	slice := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
-	for k, v := range slice {
-		fmt.Println(k, v)
-	}
-
-	var result, err = Sqrt(3213)
-	if err == nil {
-		fmt.Println(result)
-	}
-	t := []int{7, 2, 4342, 43}
-	c := make(chan int)
-	sum(t, c)
 	fmt.Println(Fact(10))
 }
