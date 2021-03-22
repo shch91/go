@@ -36,6 +36,10 @@ func Fact(k int) int {
 }
 
 func main() {
+
+	fmt.Println("的所发生的")
+
+
 	for a := 1; a < 10; a++ {
 		for b := 1; b <= a; b++ {
 			fmt.Printf("%d * %d =%d  ", b, a, a*b)
@@ -53,8 +57,8 @@ func main() {
 	if err == nil {
 		fmt.Println(result)
 	}
-	s := []int{7, 2, 4342, 43}
+	t := []int{7, 2, 4342, 43}
 	c := make(chan int)
-	sum(s, c)
+	sum(t, c)
 	fmt.Println(Fact(10))
 }
