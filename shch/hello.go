@@ -3,12 +3,11 @@ package main
 import (
 	"errors"
 	"fmt"
+	_ "github.com/jinzhu/gorm"
 	"math"
 	"reflect"
 	"strings"
 	"unsafe"
-	"github.com/jinzhu/gorm"
-
 )
 
 type TreeNode struct {
