@@ -7,6 +7,8 @@ import (
 	"reflect"
 	"strings"
 	"unsafe"
+	"github.com/jinzhu/gorm"
+
 )
 
 type TreeNode struct {
