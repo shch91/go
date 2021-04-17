@@ -39,7 +39,7 @@ func ijSum(matrix [][]int, i, j, col int) []int {
 }
 
 /**
- *一维数组最大子数组和
+ *一维数组最大子数组和及起止下标
  */
 func maxSubArray(arr []int) (int, int, int) {
 	var sum, max, begin, start, end = 0, ^int(^uint(0) >> 1), 0, 0, 0
