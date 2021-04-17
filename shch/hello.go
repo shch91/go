@@ -9,11 +9,7 @@ import (
 	"unsafe"
 )
 
-const (
-	a = iota // a=0
-	c
-	g
-)
+
 
 type TreeNode struct {
 	left  *TreeNode
