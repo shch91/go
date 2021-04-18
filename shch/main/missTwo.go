@@ -52,7 +52,6 @@ func isSubsequence(s string, t string) bool {
 	return i == len(s)
 }
 
-
 func main() {
 
 	fmt.Println(countSegments("fdsa afd fdsafds"))
