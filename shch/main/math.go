@@ -4,9 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"math"
-	"reflect"
-	"strings"
-	"unsafe"
 )
 
 func sum(s []int, c chan int) {
@@ -41,21 +38,20 @@ func fibonacci(n int, c chan int) {
 	close(c)
 }
 
+//找出数组中只出现一次的数
+func singleNumber(nums []int) int {
+	var seenOnce, seenTwice = 0, 0
+	for _, v := range nums {
+		seenOnce = ^seenTwice & (seenOnce ^ v)
+		seenTwice = ^seenOnce & (seenTwice ^ v)
+	}
+	return seenOnce
+}
+
 func main() {
 
-	got := strings.Split("a:b:c", ":")
-	want := []string{"a", "b", "c"}
-	if reflect.DeepEqual(got, want) {
-		fmt.Println("got == want")
-	}
-	fmt.Println(unsafe.Sizeof(float64(0)))
-
-	for a := 1; a < 10; a++ {
-		for b := 1; b <= a; b++ {
-			fmt.Printf("%d * %d =%d  ", a, b, a*b)
-		}
-		fmt.Println()
-	}
-
-	fmt.Println(Fact(10))
+	fmt.Println(singleNumber([]int{-1, -1, -1, -2}))
+	var pos = 1
+	fmt.Println(^pos)
+	//fmt.Println(Fact(10))
 }

@@ -50,6 +50,39 @@ func dfs(root *TreeNode, targetSum int, curPath []int) {
 	dfs(root.Right, targetSum-root.Val, curPath)
 }
 
+//二叉树的右视图 层次遍历的最右边
+func rightSideView(root *TreeNode) []int {
+	if root == nil {
+		return make([]int, 0)
+	}
+	var result []int
+	//入队
+	var quene []*TreeNode
+	quene = append(quene, root)
+
+	for len(quene) > 0 {
+		//当前层次的节点数量
+		l := len(quene)
+		for l > 0 {
+			//队头
+			cur := quene[0]
+			if cur.Left!=nil{
+				quene=append(quene,cur.Left)
+			}
+			if cur.Right!=nil{
+				quene=append(quene,cur.Right)
+			}
+			//出队列
+			quene = quene[1:]
+			if l == 1 {
+				result = append(result, cur.Val)
+			}
+			l--
+		}
+	}
+	return result
+}
+
 func main() {
 	fmt.Println("fdsfads")
 }
