@@ -9,14 +9,6 @@ import (
 	"unsafe"
 )
 
-
-
-type TreeNode struct {
-	left  *TreeNode
-	right *TreeNode
-	val   int
-}
-
 func sum(s []int, c chan int) {
 	sum := 0
 	for _, v := range s {
