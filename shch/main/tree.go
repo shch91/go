@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type TreeNode struct {
 	left  *TreeNode
 	right *TreeNode
@@ -7,5 +9,5 @@ type TreeNode struct {
 }
 
 func main()  {
-	
+	fmt.Println("fdsfads")
 }
