@@ -66,11 +66,11 @@ func rightSideView(root *TreeNode) []int {
 		for l > 0 {
 			//队头
 			cur := quene[0]
-			if cur.Left!=nil{
-				quene=append(quene,cur.Left)
+			if cur.Left != nil {
+				quene = append(quene, cur.Left)
 			}
-			if cur.Right!=nil{
-				quene=append(quene,cur.Right)
+			if cur.Right != nil {
+				quene = append(quene, cur.Right)
 			}
 			//出队列
 			quene = quene[1:]
@@ -82,6 +82,84 @@ func rightSideView(root *TreeNode) []int {
 	}
 	return result
 }
+
+/**
+ * Definition for a Node.
+ */
+
+type Node struct {
+	Val   int
+	Left  *Node
+	Right *Node
+	Next  *Node
+}
+
+//补充Next,层次遍历
+func connect(root *Node) *Node {
+	if root == nil {
+		return root
+	}
+	var quene []*Node
+	quene = append(quene, root)
+	for len(quene) > 0 {
+		//层节点数量
+		l := len(quene)
+
+		for l > 0 {
+			cur := quene[0]
+			//出队列
+			quene = quene[1:]
+			l--
+			if l > 0 {
+				cur.Next = quene[0]
+			} else {
+				cur.Next = nil
+			}
+
+			if cur.Left != nil {
+				quene = append(quene, cur.Left)
+			}
+			if cur.Right != nil {
+				quene = append(quene, cur.Right)
+			}
+
+		}
+	}
+	return root
+}
+
+
+func connectNext(root *Node) *Node {
+	if root == nil {
+		return root
+	}
+	start := root
+	for start != nil {
+		var last, nextStart *Node
+		for p := start; p != nil; p = p.Next {
+			if p.Left != nil {
+				handle(&last, &p.Left, &nextStart)
+			}
+			if p.Right != nil {
+				handle(&last, &p.Right, &nextStart)
+			}
+		}
+		//下一层开始起点
+		start = nextStart
+	}
+	return root
+}
+//链接next  当前层last上一个节点，p当前节点，nextStart每一层的起始节点
+func handle(last, p, nextStart **Node) {
+	if *last != nil {
+		(*last).Next = *p
+	}
+	if *nextStart == nil {
+		*nextStart = *p
+	}
+	*last = *p
+}
+
 
 func main() {
 	fmt.Println("fdsfads")
