@@ -13,7 +13,7 @@ func missingTwo(nums []int) []int {
 		xor ^= i
 	}
 	//求一个数组的最后一位bit表示的数
-	var lastBit, one int = xor & (-xor), 0
+	var lastBit, one  = xor & (-xor), 0
 
 	for _, v := range nums {
 		if lastBit&v > 0 {

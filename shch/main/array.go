@@ -44,6 +44,26 @@ func findRepeatedDnaSequences(s string) []string {
 	return ret
 }
 
+//寻找旋转数组中最小元素
+func findMin(nums []int) int {
+	l := len(nums)
+	if l == 1 {
+		return nums[0]
+	}
+	left, right := 0, l-1
+	for left < right {
+		mid := left + (right-left)>>1
+		if nums[mid] > nums[right] {
+			left = mid + 1
+		} else if nums[mid] < nums[right] {
+			right = mid
+		} else {
+			right--
+		}
+	}
+	return nums[left]
+}
+
 func main() {
 	fmt.Printf("%+v", findRepeatedDnaSequences(""))
 

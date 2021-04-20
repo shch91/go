@@ -48,8 +48,49 @@ func singleNumber(nums []int) int {
 	return seenOnce
 }
 
-func main() {
+//自除数
+func selfDividingNumbers(left int, right int) []int {
+	var ret []int
+	for k := left; k <= right; k++ {
+		c := k
+		for c > 0 {
+			t := c % 10
+			if t == 0 {
+				break
+			}
+			if k%t != 0 {
+				break
+			}
+			c /= 10
+		}
+		if c == 0 {
+			ret = append(ret, k)
+		}
+	}
+	return ret
+}
 
+//判定二的幂函数
+func isPowerOfTwo(n int) bool {
+	if n == 0 {
+		return false
+	}
+	return n&(n-1) == 0
+}
+
+//计算二进制中1的个数
+func count1(val int) int {
+	var res = 0
+	for val != 0 {
+		val = val & (val - 1)
+		res++
+	}
+	return res
+}
+
+func main() {
+	ret := selfDividingNumbers(1, 22)
+	fmt.Println(ret)
 	fmt.Println(singleNumber([]int{-1, -1, -1, -2}))
 	var pos = 1
 	fmt.Println(^pos)

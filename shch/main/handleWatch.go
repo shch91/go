@@ -24,15 +24,7 @@ func readBinaryWatch(turnedOn int) []string {
 	return result
 }
 
-//计算二进制中1的个数
-func count1(val int) int {
-	var res = 0
-	for val != 0 {
-		val = val & (val - 1)
-		res++
-	}
-	return res
-}
+
 
 func main() {
 	for _, str := range readBinaryWatch(2) {
