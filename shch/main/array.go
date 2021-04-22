@@ -86,8 +86,8 @@ func dfsVisit(node int, red bool, graph [][]int, color map[int]bool) bool {
 		return val == red
 	}
 	//染色
-	color[node]=red
-	for _,nei := range graph[node] {
+	color[node] = red
+	for _, nei := range graph[node] {
 		if !dfsVisit(nei, !red, graph, color) {
 			return false
 		}
@@ -97,13 +97,38 @@ func dfsVisit(node int, red bool, graph [][]int, color map[int]bool) bool {
 
 //最小交换次数
 func minSwap(A []int, B []int) int {
+	l := len(A)
+	var dp =make([][2]int,l)
+	//表示第i位置交换，不交换下最小交换次数
+	dp[0][0], dp[0][1] = 0, 1
 
+	for i := 1; i < l; i++ {
+		if A[i-1] < A[i] && B[i-1] < B[i] {
+			if A[i-1] < B[i] && B[i-1] < A[i] {
+				dp[i][0] = dp[i-1][0]
+				if dp[i-1][0] > dp[i-1][1] {
+					dp[i][0] = dp[i-1][1]
+				}
+				dp[i][1] = dp[i][0] + 1
+
+			} else {
+				dp[i][0] = dp[i-1][0]     //当前位置不交换，上一个位置也不交换
+				dp[i][1] = dp[i-1][1] + 1 //当前位置交换，上一个位置也必须交换
+			}
+		} else {
+			dp[i][0] = dp[i-1][1]     //当前位置不交换，上一个位置必须交换
+			dp[i][1] = dp[i-1][0] + 1 //当前位置交换，上一个位置不交换
+		}
+	}
+	if dp[l-1][0] > dp[l-1][1] {
+		return dp[l-1][1]
+	}
+	return dp[l-1][0]
 }
 
 func main() {
-
-
-	//but output: 2 2
+   var arr=make([]int,4)
+   fmt.Println(arr)
 
 	fmt.Printf("%+v \n", possibleBipartition(4, [][]int{{1, 2}, {1, 3}, {2, 3}}))
 
