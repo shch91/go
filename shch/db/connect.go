@@ -21,8 +21,8 @@ func main() {
 	}
 	defer db.Close()
 
-	db.DB().SetMaxIdleConns(10)
-	db.DB().SetMaxOpenConns(100)
+	db.DB().SetMaxIdleConns(2)
+	db.DB().SetMaxOpenConns(10)
 	// 自动迁移
 	db.AutoMigrate(&UserInfo{})
 
@@ -41,5 +41,5 @@ func main() {
 	// 更新
 	db.Model(&u).Update("hobby", "双色球")
 	// 删除
-	db.Delete(&u)
+	//db.Delete(&u)
 }
