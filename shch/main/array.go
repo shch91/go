@@ -98,7 +98,7 @@ func dfsVisit(node int, red bool, graph [][]int, color map[int]bool) bool {
 //最小交换次数
 func minSwap(A []int, B []int) int {
 	l := len(A)
-	var dp =make([][2]int,l)
+	var dp = make([][2]int, l)
 	//表示第i位置交换，不交换下最小交换次数
 	dp[0][0], dp[0][1] = 0, 1
 
@@ -126,9 +126,46 @@ func minSwap(A []int, B []int) int {
 	return dp[l-1][0]
 }
 
+//三维形体投影面积
+func projectionArea(grid [][]int) int {
+	return 0
+}
+
+//单调数列
+func isMonotonic(A []int) bool {
+	var l = len(A)
+	if l <= 1 {
+		return true
+	}
+	//递增标记
+	var flag = 0
+	if A[1] > A[0] {
+		flag = 1
+	}
+	if A[1] < A[0] {
+		flag = -1
+	}
+
+	for i := 2; i < l; i++ {
+		//增
+		if flag > 0 && A[i] < A[i-1] {
+			return false
+		} else if flag < 0 && A[i] > A[i-1] {
+			return false
+		} else {
+			if A[i] > A[i-1] {
+				flag = 1
+			} else if A[i] < A[i-1] {
+				flag = -1
+			}
+		}
+	}
+	return true
+}
+
 func main() {
-   var arr=make([]int,4)
-   fmt.Println(arr)
+	var arr = make([]int, 4)
+	fmt.Println(arr)
 
 	fmt.Printf("%+v \n", possibleBipartition(4, [][]int{{1, 2}, {1, 3}, {2, 3}}))
 
