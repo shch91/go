@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"time"
 )
 
 // UserInfo 用户信息
@@ -12,6 +13,15 @@ type UserInfo struct {
 	Name   string
 	Gender string
 	Hobby  string
+}
+
+type Like struct {
+	ID        int    `gorm:"primary_key"`
+	Ip        string `gorm:"type:varchar(20);not null;index:ip_idx"`
+	Ua        string `gorm:"type:varchar(256);not null;"`
+	Title     string `gorm:"type:varchar(128);not null;index:title_idx"`
+	Hash      uint64 `gorm:"unique_index:hash_idx;"`
+	CreatedAt time.Time
 }
 
 func main() {
@@ -26,10 +36,11 @@ func main() {
 	// 自动迁移
 	db.AutoMigrate(&UserInfo{})
 
-	u1 := UserInfo{1, "枯藤", "男", "篮球"}
+
+	//u1 := UserInfo{1, "枯藤", "男", "篮球"}
 
 	// 创建记录
-	db.Create(&u1)
+	//db.Create(&u1)
 
 	// 查询
 	var u = new(UserInfo)
