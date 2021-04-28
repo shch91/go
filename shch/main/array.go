@@ -163,7 +163,55 @@ func isMonotonic(A []int) bool {
 	return true
 }
 
+func minOperations(nums []int) int {
+	if len(nums) <= 1 {
+		return 0
+	}
+	var op = 0
+	for i := 1; i < len(nums); i++ {
+		if nums[i] <= nums[i-1] {
+			op += nums[i-1] - nums[i] + 1
+			nums[i] = nums[i-1] + 1
+		}
+	}
+	return op
+}
+
+func maxAscendingSum(nums []int) int {
+	if len(nums) <= 1 {
+		return nums[0]
+	}
+	var dp = make([]int, len(nums))
+	var ret = nums[0]
+	dp[0] = nums[0]
+	for i := 1; i < len(nums); i++ {
+		if nums[i] > nums[i-1] {
+			dp[i] = dp[i-1] + nums[i]
+		} else {
+			dp[i] = nums[i]
+		}
+		if dp[i] > ret {
+			ret = dp[i]
+		}
+	}
+	return ret
+}
+
+//平均等待时间
+func averageWaitingTime(customers [][]int) float64 {
+	var now,wait = 0,0
+	for _,arr := range customers {
+		if arr[0]>now{
+			now=arr[0]
+		}
+		wait+=arr[1]+now-arr[0]
+		now+=arr[1]
+	}
+	return float64(wait*1.0)/float64(len(customers))
+}
+
 func main() {
+	fmt.Println(averageWaitingTime([][]int{{5,2},{5,4},{10,3},{20,1}}))
 	var arr = make([]int, 4)
 	fmt.Println(arr)
 

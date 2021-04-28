@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"math"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -108,7 +110,7 @@ func subdomainVisits(cpdomains []string) []string {
 			if i < len(com)-1 {
 				tmp = "." + tmp
 			}
-			tmp = com[i]+tmp
+			tmp = com[i] + tmp
 			key[tmp] += time
 		}
 	}
@@ -118,7 +120,75 @@ func subdomainVisits(cpdomains []string) []string {
 	return result
 }
 
+//特殊等价字符串
+func numSpecialEquivGroups(A []string) int {
+	var m = make(map[string]struct{})
+	for _, str := range A {
+		var cnt [52]int
+		for i := 0; i < len(str); i++ {
+			cnt[int(str[i])-'a'+26*(i%2)]++
+		}
+		var str string
+		for _, v := range cnt {
+			str += strconv.Itoa(v)
+		}
+		m[str] = struct{}{}
+	}
+	return len(m)
+}
+
+//最常见单词
+func mostCommonWord(paragraph string, banned []string) string {
+	reg := regexp.MustCompile("[\\s!?',;.]+")
+
+	ban := make(map[string]struct{})
+	count := make(map[string]int)
+	for _, val := range banned {
+		ban[val] = struct{}{}
+	}
+
+	for _, str := range reg.Split(paragraph, -1) {
+		low := strings.ToLower(str)
+		if _, ok := ban[low]; !ok {
+			count[low]++
+		}
+	}
+	var ret string
+	var max = math.MinInt32
+	for key, cnt := range count {
+		if cnt > max {
+			ret = key
+			max = cnt
+		}
+	}
+	return ret
+}
+
+//字符串中第二大数字
+func secondHighest(s string) int {
+	var first, second = -1, -1
+	for _, i := range s {
+		if i >= '0' && i <= '9' {
+			val := int(i - '0')
+			if first == -1 {
+				first = val
+			} else if val > first {
+				second = first
+				first = val
+			} else if val > second && val < first {
+				second = val
+			}
+		}
+	}
+	return second
+
+}
+
 func main() {
+
+	fmt.Println(secondHighest("abc1111"))
+	fmt.Println(mostCommonWord("Bob hit a ball, the hit BALL flew far after it was hit.", []string{"hit"}))
+	fmt.Println(numSpecialEquivGroups([]string{"abcd", "cdab", "cbad", "xyzz", "zzxy", "zzyx"}))
 	fmt.Println(uncommonFromSentences("this apple is sweet", "this apple is sour"))
 	widths := []int{4, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10}
 	S := "bbbcccdddaaa"
