@@ -184,6 +184,25 @@ func secondHighest(s string) int {
 
 }
 
+//
+func halvesAreAlike(s string) bool {
+	var l, t = len(s), 0
+
+	s = strings.ToLower(s)
+	for i := 0; i < l; i++ {
+		var is = aeiou(s[i])
+		if i < 2/t && is {
+			t++
+		} else if is {
+			t--
+		}
+	}
+	return t == 0
+}
+func aeiou(a uint8) bool {
+	return a == 'a' || a == 'e' || a == 'i' || a == 'o' || a == 'u'
+}
+
 func main() {
 
 	fmt.Println(secondHighest("abc1111"))
