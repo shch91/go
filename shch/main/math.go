@@ -88,6 +88,34 @@ func count1(val int) int {
 	return res
 }
 
+//蚂蚁掉落时刻
+func getLastMoment(n int, left []int, right []int) int {
+	var max = math.MinInt32
+	for _, val := range left {
+		if val > max {
+			max = val
+		}
+	}
+	for _, val := range right {
+		if n-val > max {
+			max = n - val
+		}
+	}
+	return max
+}
+
+func countOdds(low int, high int) int {
+
+	if low%2 == 0 {
+		low += 1
+	}
+	if high%2 == 0 {
+		high-=1
+	}
+
+	return (high-low+1)/2
+}
+
 func main() {
 	ret := selfDividingNumbers(1, 22)
 	fmt.Println(ret)

@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"math"
+	"sort"
+	"strings"
 )
 
 //重复的DNA子串
@@ -199,19 +201,66 @@ func maxAscendingSum(nums []int) int {
 
 //平均等待时间
 func averageWaitingTime(customers [][]int) float64 {
-	var now,wait = 0,0
-	for _,arr := range customers {
-		if arr[0]>now{
-			now=arr[0]
+	var now, wait = 0, 0
+	for _, arr := range customers {
+		if arr[0] > now {
+			now = arr[0]
 		}
-		wait+=arr[1]+now-arr[0]
-		now+=arr[1]
+		wait += arr[1] + now - arr[0]
+		now += arr[1]
 	}
-	return float64(wait*1.0)/float64(len(customers))
+	return float64(wait*1.0) / float64(len(customers))
+}
+
+func canMakeArithmeticProgression(arr []int) bool {
+
+	sort.Ints(arr)
+	if len(arr) < 3 {
+		return true
+	}
+	var d = arr[1] - arr[0]
+	for i := 2; i < len(arr); i++ {
+		if arr[i]-arr[i-1] != d {
+			return false
+		}
+	}
+	return true
+}
+
+func reorderSpaces(text string) string {
+	var field = strings.Fields(text)
+
+	var t, sl, has, avg = len(text), 0, 0, 0
+	var result string
+	for _, str := range field {
+		sl += len(str)
+	}
+	if len(field) > 1 {
+		avg = (t - sl) / (len(field) - 1)
+	} else {
+		avg = t - sl
+	}
+
+	for _, str := range field {
+		result += str
+		for i := 0; i < avg && has < t-sl; i++ {
+			result += " "
+			has++
+		}
+
+	}
+	//最后剩下的空
+	for has < t-sl {
+		result += " "
+		has++
+	}
+	return result
 }
 
 func main() {
-	fmt.Println(averageWaitingTime([][]int{{5,2},{5,4},{10,3},{20,1}}))
+	reorderSpaces("a b   c d")
+	canMakeArithmeticProgression([]int{3, 5, 1})
+	fmt.Println(averageWaitingTime([][]int{{5, 2}, {5, 4}, {10, 3}, {20, 1}}))
 	var arr = make([]int, 4)
 	fmt.Println(arr)
 
