@@ -257,7 +257,44 @@ func reorderSpaces(text string) string {
 	return result
 }
 
+func numSpecial(mat [][]int) int {
+	var cnt = 0
+	var row, col [100]int
+	for i := 0; i < len(mat); i++ {
+		for j := 0; j < len(mat[0]); j++ {
+			if mat[i][j] == 1 {
+				row[i]++
+				col[j]++
+			}
+		}
+	}
+	for i := 0; i < len(mat); i++ {
+		for j := 0; j < len(mat[0]); j++ {
+			if mat[i][j] == 1 && row[i] == 1 && col[j] == 1 {
+				cnt++
+			}
+		}
+	}
+	return cnt
+}
+
+//格雷编码
+func grayCode(n int) []int {
+	var res []int
+	res=append(res,0)
+	var head=1
+	for i := 0; i < n; i++ {
+     	for j:=len(res)-1;j>=0;j--{
+     		res=append(res,head+res[j])
+		}
+		//二进制位数
+		head<<=1
+	}
+	return res
+}
+
 func main() {
+	fmt.Println(grayCode(2))
 	reorderSpaces("a b   c d")
 	canMakeArithmeticProgression([]int{3, 5, 1})
 	fmt.Println(averageWaitingTime([][]int{{5, 2}, {5, 4}, {10, 3}, {20, 1}}))

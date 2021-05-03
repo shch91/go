@@ -117,6 +117,8 @@ func countOdds(low int, high int) int {
 	return (high-low)/2 + 1
 }
 
+
+
 func main() {
 	ret := selfDividingNumbers(1, 22)
 	fmt.Println(ret)
