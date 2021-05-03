@@ -104,16 +104,17 @@ func getLastMoment(n int, left []int, right []int) int {
 	return max
 }
 
+//基数数量
 func countOdds(low int, high int) int {
 
 	if low%2 == 0 {
 		low += 1
 	}
 	if high%2 == 0 {
-		high-=1
+		high -= 1
 	}
 
-	return (high-low+1)/2
+	return (high-low)/2 + 1
 }
 
 func main() {
