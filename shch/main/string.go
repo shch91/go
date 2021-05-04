@@ -203,6 +203,11 @@ func aeiou(a uint8) bool {
 	return a == 'a' || a == 'e' || a == 'i' || a == 'o' || a == 'u'
 }
 
+//旋转字符串
+func rotateString(A string, B string) bool {
+	return len(A) == len(B) && strings.Contains(A+A, B)
+}
+
 func main() {
 
 	fmt.Println(secondHighest("abc1111"))

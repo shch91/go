@@ -293,8 +293,20 @@ func grayCode(n int) []int {
 	return res
 }
 
+//卡特兰数
+func numTrees(n int) int {
+	C := 1
+	for i := 0; i < n; i++ {
+		C = C * 2 * (2 * i + 1) / (i + 2);
+	}
+	return C
+}
+
+
+
+
 func main() {
-	fmt.Println(grayCode(2))
+	fmt.Println(grayCode(4))
 	reorderSpaces("a b   c d")
 	canMakeArithmeticProgression([]int{3, 5, 1})
 	fmt.Println(averageWaitingTime([][]int{{5, 2}, {5, 4}, {10, 3}, {20, 1}}))

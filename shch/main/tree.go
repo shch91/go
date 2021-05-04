@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 type TreeNode struct {
 	Left  *TreeNode
@@ -128,7 +131,6 @@ func connect(root *Node) *Node {
 	return root
 }
 
-
 func connectNext(root *Node) *Node {
 	if root == nil {
 		return root
@@ -149,6 +151,7 @@ func connectNext(root *Node) *Node {
 	}
 	return root
 }
+
 //链接next  当前层last上一个节点，p当前节点，nextStart每一层的起始节点
 func handle(last, p, nextStart **Node) {
 	if *last != nil {
@@ -160,7 +163,37 @@ func handle(last, p, nextStart **Node) {
 	*last = *p
 }
 
+//每次调用
+func minDiffInBST(root *TreeNode) int {
+	ans, pre := math.MaxInt64, -1
+	var dfs func(*TreeNode)
+	dfs = func(node *TreeNode) {
+		if node == nil {
+			return
+		}
+		dfs(node.Left)
+		if pre != -1 && node.Val-pre < ans {
+			ans = node.Val - pre
+		}
+		pre = node.Val
+		dfs(node.Right)
+	}
+	dfs(root)
+	return ans
+}
+
+
 
 func main() {
-	fmt.Println("fdsfads")
+	var root = &TreeNode{nil, nil, 27}
+	var t34 = &TreeNode{nil, nil, 34}
+	var t44 = &TreeNode{nil, nil, 44}
+	var t50 = &TreeNode{nil, nil, 50}
+	var t58 = &TreeNode{nil, nil, 58}
+	root.Right = t34
+	t34.Right = t58
+	t58.Left = t50
+	t50.Left = t44
+	r:=minDiffInBST(root)
+	fmt.Println(r)
 }
