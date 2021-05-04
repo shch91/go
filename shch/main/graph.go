@@ -41,16 +41,6 @@ func dfsGraph(graph [][]int, node int, color []int) bool {
 
 //网络传播延迟dfs
 func networkDelayTime(times [][]int, n int, k int) int {
-	var graph = make(map[int][][2]int)
-	for _, val := range times {
-		//邻接表
-		var dis = [2]int{val[2], val[1]}
-		graph[val[0]] = append(graph[val[0]], dis)
-	}
-	//每个节点由近至远排序邻接表
-	for i := 0; i < n; i++ {
-
-	}
 
 }
 
