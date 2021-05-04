@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"sort"
 )
 
 //自身安全节点
@@ -18,7 +17,7 @@ func eventualSafeNodes(graph [][]int) []int {
 	return ret
 }
 
-//节点为1表示访问中，节点2所有
+//节点为1表示访问中，节点为2表示为终点
 func dfsGraph(graph [][]int, node int, color []int) bool {
 	if color[node] > 0 {
 		return color[node] == 2
@@ -34,14 +33,14 @@ func dfsGraph(graph [][]int, node int, color []int) bool {
 			return false
 		}
 	}
-
+    //为终点
 	color[node] = 2
 	return true
 }
 
 //网络传播延迟dfs
 func networkDelayTime(times [][]int, n int, k int) int {
-
+     return 0
 }
 
 func main() {
