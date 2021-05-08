@@ -208,8 +208,67 @@ func rotateString(A string, B string) bool {
 	return len(A) == len(B) && strings.Contains(A+A, B)
 }
 
+//单调递增的数字
+func monotoneIncreasingDigits(N int) int {
+
+	var strN = []byte(strconv.Itoa(N))
+	var i = 1
+	//找到递增的位置
+	for i < len(strN) && strN[i] >= strN[i-1] {
+		i++
+	}
+	if i < len(strN) {
+		//i-1严格大于
+		for i > 0 && strN[i] < strN[i-1] {
+			strN[i-1] -= 1
+			i--
+		}
+		for i++; i < len(strN); i++ {
+			strN[i] = '0' + 9
+		}
+	}
+
+	val, _ := strconv.Atoi(string(strN))
+	return val
+}
+
+//字符最短距离
+func shortestToChar(s string, c byte) []int {
+	var ans = make([]int, len(s))
+	var prev = math.MinInt32
+	for i := 0; i < len(s); i++ {
+		if s[i] == c {
+			prev = i
+		}
+		ans[i] = i - prev
+	}
+	prev = math.MaxInt32
+	for i := len(s) - 1; i >= 0; i-- {
+		if s[i] == c {
+			prev = i
+		}
+		if prev-i < ans[i] {
+			ans[i] = prev - i
+		}
+
+	}
+	return ans
+}
+
+//转换小写字母
+func toLowerCase(str string) string {
+	var ch = []byte(str)
+	for i := 0; i < len(ch); i++ {
+		if ch[i] >= 'A' && ch[i] <= 'Z' {
+			ch[i] += 32
+		}
+	}
+	return string(ch)
+}
+
 func main() {
 
+	fmt.Println(monotoneIncreasingDigits(332))
 	fmt.Println(secondHighest("abc1111"))
 	fmt.Println(mostCommonWord("Bob hit a ball, the hit BALL flew far after it was hit.", []string{"hit"}))
 	fmt.Println(numSpecialEquivGroups([]string{"abcd", "cdab", "cbad", "xyzz", "zzxy", "zzyx"}))

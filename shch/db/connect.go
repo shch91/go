@@ -37,10 +37,10 @@ func main() {
 	db.AutoMigrate(&UserInfo{})
 
 
-	//u1 := UserInfo{1, "枯藤", "男", "篮球"}
+	u1 := UserInfo{Name: "枯藤", Gender: "男", Hobby: "篮球"}
 
 	// 创建记录
-	//db.Create(&u1)
+	db.Create(&u1)
 
 	// 查询
 	var u = new(UserInfo)
