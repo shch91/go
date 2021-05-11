@@ -117,9 +117,48 @@ func countOdds(low int, high int) int {
 	return (high-low)/2 + 1
 }
 
+//12345678910 找到第n位数字
+func findNthDigit(n int) int {
+	//当前位数的最高值，最低值，以及值的宽度
+	var low, high uint64 = 1, 9
+	var width, mul uint64 = 1, 10
+	//位置
+	var pos uint64 = 0
+	for {
+		pos += (high - low + 1) * width
+		if pos > uint64(n) {
+			break
+		}
+		low = high + 1
+		high = low*mul - 1
+		width++
+	}
+	//退回位数
+	//往回退的步数
+	back := pos - uint64(n)
+	remain := back % width
+	high -= back / width
+	for remain != 0 {
+		high /= 10
+		remain--
+	}
+	//取当前末尾数字
+	return int(high % 10)
+}
 
+//排列硬币
+func arrangeCoins(n int) int {
+	var row = 0
+	for n > row {
+		row++
+		n -= row
+	}
+	return row
+}
 
 func main() {
+	fmt.Println(arrangeCoins(5))
+	fmt.Println(findNthDigit(1))
 	ret := selfDividingNumbers(1, 22)
 	fmt.Println(ret)
 	fmt.Println(singleNumber([]int{-1, -1, -1, -2}))
