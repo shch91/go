@@ -156,7 +156,42 @@ func arrangeCoins(n int) int {
 	return row
 }
 
+//移除k个元素剩余最小元素
+func removeKdigits(num string, k int) string {
+	if len(num) == k {
+		return "0"
+	}
+	var stack = []byte{num[0]}
+
+	for i := 1; i < len(num); i++ {
+		l := len(stack)
+		if l < 1 { //空
+			stack = append(stack, num[i])
+		} else {
+			//大于当前元素的弹出
+			for l > 0 && k > 0 && num[i] < stack[l-1] {
+				stack = stack[:l-1]
+				k--
+				l--
+			}
+			stack = append(stack, num[i])
+		}
+	}
+	for k > 0 {
+		k--
+		l := len(stack)
+		stack = stack[:l-1]
+	}
+	//去掉0
+	for i := 0; i < len(stack); i++ {
+		if stack[i] != '0' {
+			return string(stack[i:])
+		}
+	}
+	return "0"
+}
 func main() {
+	fmt.Println(removeKdigits("112", 1))
 	fmt.Println(arrangeCoins(5))
 	fmt.Println(findNthDigit(1))
 	ret := selfDividingNumbers(1, 22)
