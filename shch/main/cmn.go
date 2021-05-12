@@ -66,7 +66,7 @@ func main() {
 
 	arr := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
-	cmn(arr, sel, 10, 2)
+	cmn(arr, sel, 10, 8)
 	for _, v := range result {
 		for _, a := range v {
 			fmt.Printf("%d \t", a)
