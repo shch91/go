@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math"
 )
 
@@ -152,7 +151,7 @@ func connectNext(root *Node) *Node {
 	return root
 }
 
-//链接next  当前层last上一个节点，p当前节点，nextStart每一层的起始节点
+//链接next  当前层 last上一个节点，p当前节点，nextStart每一层的起始节点
 func handle(last, p, nextStart **Node) {
 	if *last != nil {
 		(*last).Next = *p
@@ -163,10 +162,11 @@ func handle(last, p, nextStart **Node) {
 	*last = *p
 }
 
-//每次调用
+//寻找BST树中的最小差值
 func minDiffInBST(root *TreeNode) int {
 	ans, pre := math.MaxInt64, -1
 	var dfs func(*TreeNode)
+	//递归中序遍历
 	dfs = func(node *TreeNode) {
 		if node == nil {
 			return
@@ -182,18 +182,56 @@ func minDiffInBST(root *TreeNode) int {
 	return ans
 }
 
+type FourNode struct {
+	Val         bool
+	IsLeaf      bool
+	TopLeft     *FourNode
+	TopRight    *FourNode
+	BottomLeft  *FourNode
+	BottomRight *FourNode
+}
 
+//构建四叉树
+func construct(grid [][]int) *FourNode {
+	//单个元素
+	if len(grid) == 1 && len(grid[0]) == 1 {
+		return &FourNode{Val: grid[0][0] == 1, IsLeaf: true}
+	}
+	//递归构建
+	return buildFourTree(grid, 0, 0, len(grid)-1, len(grid)-1)
+}
+
+func buildFourTree(grid [][]int, i, j, x, y int) *FourNode {
+	if isEqual(grid, i, j, x, y) {
+		return &FourNode{Val: grid[i][j] == 1, IsLeaf: true}
+	} else {
+		root := FourNode{Val: true, IsLeaf: false}
+		//分四部分构建
+		row, col := x-i+1, y-j+1
+		root.TopLeft = buildFourTree(grid, i, j, i+row/2-1, j+col/2-1)
+		root.TopRight = buildFourTree(grid, i, j+col/2, i+row/2-1, y)
+
+		root.BottomLeft = buildFourTree(grid, i+row/2, j, x, j+col/2-1)
+		root.BottomRight = buildFourTree(grid, i+row/2, j+col/2, x, y)
+		return &root
+	}
+}
+
+//网格中下标的(i,j)->(x,y)是否全部相等
+func isEqual(grid [][]int, i, j, x, y int) bool {
+	if x-i == 0 || y-j == 0 {
+		return true
+	}
+	for row := i; row <= x; row++ {
+		for col := j; col <= y; col++ {
+			if grid[row][col] != grid[i][j] {
+				return false
+			}
+		}
+	}
+	return true
+}
 
 func main() {
-	var root = &TreeNode{nil, nil, 27}
-	var t34 = &TreeNode{nil, nil, 34}
-	var t44 = &TreeNode{nil, nil, 44}
-	var t50 = &TreeNode{nil, nil, 50}
-	var t58 = &TreeNode{nil, nil, 58}
-	root.Right = t34
-	t34.Right = t58
-	t58.Left = t50
-	t50.Left = t44
-	r:=minDiffInBST(root)
-	fmt.Println(r)
+
 }
