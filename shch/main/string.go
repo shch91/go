@@ -266,6 +266,24 @@ func toLowerCase(str string) string {
 	return string(ch)
 }
 
+//同构字符串
+func isIsomorphic(s string, t string) bool {
+	if len(s) != len(t) {
+		return false
+	}
+	s2t := map[byte]byte{}
+	t2s := map[byte]byte{}
+	for i := range s {
+		x, y := s[i], t[i]
+		if s2t[x] > 0 && s2t[x] != y || t2s[y] > 0 && t2s[y] != x {
+			return false
+		}
+		s2t[x] = y
+		t2s[y] = x
+	}
+	return true
+}
+
 func main() {
 
 	fmt.Println(monotoneIncreasingDigits(332))

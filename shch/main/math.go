@@ -190,6 +190,22 @@ func removeKdigits(num string, k int) string {
 	}
 	return "0"
 }
+
+//各位数字相加只剩一位
+func addDigits(num int) int {
+	for num > 9 {
+		val := 0
+		for num != 0 {
+			val += num % 10
+			num /= 10
+		}
+		num = val
+	}
+	return num
+}
+
+
+
 func main() {
 	fmt.Println(removeKdigits("112", 1))
 	fmt.Println(arrangeCoins(5))

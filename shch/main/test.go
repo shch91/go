@@ -6,77 +6,32 @@ import (
 	"time"
 )
 
-func printGreeting(done <-chan interface{}) error{
-	greeting, err := genGreeting(done)
-	if err != nil{
-		return err
+func onceDo() {
+	var num int
+	sign := make(chan bool)
+	var once sync.Once
+	//闭包函数
+	f := func(ii int) func() {
+		return func() {
+			num = num + ii*2
+			sign <- true
+		}
 	}
-	fmt.Printf("%s world!\n", greeting)
-	return nil
-}
-
-func genGreeting(done <-chan interface{})(string, error){
-	switch locale, err := locale(done);{
-	case err != nil:
-		return "", err
-	case locale == "EN/US":
-		return "hello", nil
+	for i := 0; i < 3; i++ {
+		fi := f(i + 1)
+		go once.Do(fi)
 	}
-	return "", fmt.Errorf("unsupported locale")
-}
-
-func locale(done <-chan interface{})(string, error){
-	select{
-	case <-done :
-		return "", fmt.Errorf("canceled")
-	case <-time.After(1*time.Minute):
+	for j := 0; j < 3; j++ {
+		select {
+		case <-sign:
+			fmt.Println("Received a signal.")
+		case <-time.After(3 * time.Second):
+			fmt.Println("Timeout!")
+		}
 	}
-	return "EN/US", nil
+	fmt.Printf("Num: %d.\n", num)
 }
-
-func printFarewell(done <-chan interface{})  error{
-	farewell, err := genFarewell(done)
-	if err != nil{
-		return err
-	}
-	fmt.Printf("%s world!\n", farewell)
-	return nil
-}
-
-func genFarewell(done <-chan interface{})(string, error){
-	switch locale,err := locale(done);{
-	case err != nil:
-		return "", err
-	case locale == "EN/US":
-		return "goodbye", nil
-	}
-	return "", fmt.Errorf("unsupproted locale")
-}
-
 
 func main() {
-
-	var wg sync.WaitGroup
-	done := make(chan interface{})
-	defer close(done)
-
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		if err := printGreeting(done); err != nil{
-			fmt.Println("%v", err)
-			return
-		}
-	}()
-
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		if err := printFarewell(done); err != nil{
-			fmt.Printf("%v", err)
-		}
-	}()
-
-	wg.Wait()
+	onceDo()
 }
-
