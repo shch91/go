@@ -79,7 +79,7 @@ func isPowerOfTwo(n int) bool {
 }
 
 //计算二进制中1的个数
-func count1(val int) int {
+func countOne(val int) int {
 	var res = 0
 	for val != 0 {
 		val = val & (val - 1)
@@ -204,6 +204,15 @@ func addDigits(num int) int {
 	return num
 }
 
+
+//卡特兰数
+func numTrees(n int) int {
+	C := 1
+	for i := 0; i < n; i++ {
+		C = C * 2 * (2 * i + 1) / (i + 2)
+	}
+	return C
+}
 
 
 func main() {

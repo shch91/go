@@ -182,8 +182,7 @@ func minDiffInBST(root *TreeNode) int {
 	return ans
 }
 
-
-
+//四叉树
 type FourNode struct {
 	Val         bool
 	IsLeaf      bool
