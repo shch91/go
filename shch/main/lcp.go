@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"sort"
 )
 
 //水缸最少操作次数
@@ -85,6 +86,79 @@ func orchestraLayout(num int, xPos int, yPos int) int {
 	}
 }
 
+//早餐组合
+func breakfastNumber(staple []int, drinks []int, x int) int {
+	var ret = 0
+	sort.Slice(staple, func(i, j int) bool {
+		return staple[i] < staple[j]
+	})
+	sort.Slice(drinks, func(i, j int) bool {
+		return drinks[i] < drinks[j]
+	})
+
+	var left, right = 0, len(drinks) - 1
+	for left < len(staple) && right >= 0 {
+
+		if staple[left]+drinks[right] <= x {
+			ret += (right + 1) % (1e9 + 7)
+			left++
+		} else {
+			right--
+		}
+
+	}
+	return ret % (1e9 + 7)
+}
+
+func calculate(s string) int {
+	var x, y = 1, 0
+	for i := 0; i < len(s); i++ {
+		if s[i] == 'A' {
+			x = 2*x + y
+		} else {
+			y = 2*y + x
+		}
+	}
+	return x + y
+}
+
+//期望值
+func expectNumber(scores []int) int {
+	var m = make(map[int]struct{})
+	for i := 0; i < len(scores); i++ {
+		m[scores[i]] = struct{}{}
+	}
+	return len(m)
+}
+
+var total = 0
+
+//信息传递
+func numWays(n int, relation [][]int, k int) int {
+	total = 0
+	var graph = make([][]int, n)
+	for i := 0; i < len(relation); i++ {
+		x, y := relation[i][0], relation[i][1]
+		graph[x] = append(graph[x], y)
+	}
+	dfsWay(graph, 0, n-1, 0, k)
+	return total
+}
+
+func dfsWay(matrix [][]int, start, end, step, k int) {
+	if step >= k {
+		if end == start {
+			total++
+		}
+		return
+	}
+	for _, nei := range matrix[start] {
+		dfsWay(matrix, nei, end, step+1, k)
+	}
+}
+
 func main() {
+	fmt.Println(numWays(5, [][]int{{0, 2}, {2, 1}, {3, 4}, {2, 3}, {1, 4}, {2, 0}, {0, 4}}, 3))
+	fmt.Println(breakfastNumber([]int{10, 20, 5}, []int{5, 5, 2}, 15))
 	fmt.Println(orchestraLayout(4, 1, 2))
 }

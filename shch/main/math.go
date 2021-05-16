@@ -204,18 +204,50 @@ func addDigits(num int) int {
 	return num
 }
 
-
 //卡特兰数
 func numTrees(n int) int {
 	C := 1
 	for i := 0; i < n; i++ {
-		C = C * 2 * (2 * i + 1) / (i + 2)
+		C = C * 2 * (2*i + 1) / (i + 2)
 	}
 	return C
 }
 
+//最大公约数
+func gcd(a, b int) int {
+	if b == 0 {
+		return a
+	}
+	return gcd(b, a%b)
+}
+
+//分式化简
+func fraction(cont []int) []int {
+	var n, m = 1, cont[len(cont)-1]
+	for i := len(cont) - 2; i >= 0; i-- {
+		n += m * cont[i]
+		//交换n,m
+		n, m = m, n
+	}
+	g := gcd(m, n)
+	return []int{m / g, n / g}
+}
+
+//最小那币次数
+func minCount(coins []int) int {
+	var ret = 0
+	for i := 0; i < len(coins); i++ {
+		if coins[i]%2 == 0 {
+			ret += coins[i] / 2
+		} else {
+			ret += coins[i]/2 + 1
+		}
+	}
+	return ret
+}
 
 func main() {
+	fmt.Printf("val=%v \n", fraction([]int{3, 2, 0, 2}))
 	fmt.Println(removeKdigits("112", 1))
 	fmt.Println(arrangeCoins(5))
 	fmt.Println(findNthDigit(1))
