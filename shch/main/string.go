@@ -284,8 +284,55 @@ func isIsomorphic(s string, t string) bool {
 	return true
 }
 
-func main() {
+//双向
+func wordPattern(pattern string, s string) bool {
+	if len(pattern) != len(strings.Split(s, " ")) {
+		return false
+	}
+	p2s := map[byte]string{}
+	s2p := map[string]byte{}
+	str := strings.Split(s, " ")
+	for i := range pattern {
+		x, y := pattern[i], str[i]
+		if p2s[x] != "" && p2s[x] != y || s2p[y] > 0 && s2p[y] != x {
+			return false
+		}
+		p2s[x] = y
+		s2p[y] = x
+	}
+	return true
+}
 
+//翻转元音字母
+func reverseVowels(s string) string {
+	var ret = []byte(s)
+	var index []int
+	for i := 0; i < len(s); i++ {
+		if isVowel(s[i]) {
+			index = append(index, i)
+		}
+	}
+	for i, j := 0, len(index)-1; i <= j; i, j = i+1, j-1 {
+		ret[index[i]], ret[index[j]] = ret[index[j]], ret[index[i]]
+	}
+	return string(ret)
+}
+
+var Vowels = []byte{'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'}
+
+func isVowel(b byte) bool {
+	for _, ch := range Vowels {
+		if ch == b {
+			return true
+		}
+	}
+	return false
+}
+
+func main() {
+	reverseVowels("hello")
+
+	fmt.Println(wordPattern("abba", "dog cat cat dog"))
 	fmt.Println(monotoneIncreasingDigits(332))
 	fmt.Println(secondHighest("abc1111"))
 	fmt.Println(mostCommonWord("Bob hit a ball, the hit BALL flew far after it was hit.", []string{"hit"}))

@@ -145,11 +145,11 @@ func isMonotonic(A []int) bool {
 
 	for i := 2; i < l; i++ {
 
-		if flag > 0 && A[i] < A[i-1] {//增
+		if flag > 0 && A[i] < A[i-1] { //增
 			return false
-		} else if flag < 0 && A[i] > A[i-1] {//减
+		} else if flag < 0 && A[i] > A[i-1] { //减
 			return false
-		} else {//相等
+		} else { //相等
 			if A[i] > A[i-1] {
 				flag = 1
 			} else if A[i] < A[i-1] {
@@ -276,16 +276,32 @@ func numSpecial(mat [][]int) int {
 //格雷编码
 func grayCode(n int) []int {
 	var res []int
-	res=append(res,0)
-	var head=1
+	res = append(res, 0)
+	var head = 1
 	for i := 0; i < n; i++ {
-     	for j:=len(res)-1;j>=0;j--{
-     		res=append(res,head+res[j])
+		for j := len(res) - 1; j >= 0; j-- {
+			res = append(res, head+res[j])
 		}
 		//二进制位数
-		head<<=1
+		head <<= 1
 	}
 	return res
+}
+
+type NumArray struct {
+	s []int
+}
+
+func Con(nums []int) NumArray {
+	var sum = make([]int, len(nums)+1)
+	for i := 0; i < len(nums); i++ {
+		sum[i+1] = sum[i] + nums[i]
+	}
+	return NumArray{s:sum}
+}
+
+func (this *NumArray) SumRange(left int, right int) int {
+   return this.s[right+1]-this.s[left]
 }
 
 func main() {

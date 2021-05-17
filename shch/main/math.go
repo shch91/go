@@ -246,7 +246,27 @@ func minCount(coins []int) int {
 	return ret
 }
 
+//判断是否丑数
+func isUgly(n int) bool {
+	if n <= 0 {
+		return false
+	}
+	for n != 1 {
+		if n%2 == 0 {
+			n /= 2
+		} else if n%3 == 0 {
+			n /= 3
+		} else if n%5 == 0 {
+			n /= 5
+		} else {
+			return false
+		}
+	}
+	return true
+}
+
 func main() {
+	fmt.Println(isUgly(-2147483648))
 	fmt.Printf("val=%v \n", fraction([]int{3, 2, 0, 2}))
 	fmt.Println(removeKdigits("112", 1))
 	fmt.Println(arrangeCoins(5))
