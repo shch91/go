@@ -329,6 +329,24 @@ func isVowel(b byte) bool {
 	return false
 }
 
+//字符有字符中的magazine组成
+func canConstruct(ransomNote string, magazine string) bool {
+	var m = make(map[byte]int)
+	for i := 0; i < len(magazine); i++ {
+		m[magazine[i]]++
+	}
+
+	for i := 0; i < len(ransomNote); i++ {
+		val, ok := m[ransomNote[i]]
+		if ok && val > 0 {
+			m[ransomNote[i]]--
+		} else {
+			return false
+		}
+	}
+	return true
+}
+
 func main() {
 	reverseVowels("hello")
 
