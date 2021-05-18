@@ -347,6 +347,25 @@ func canConstruct(ransomNote string, magazine string) bool {
 	return true
 }
 
+func findTheDifference(s string, t string) byte {
+	var m = make(map[byte]int)
+	for i := 0; i < len(t); i++ {
+		m[t[i]]++
+	}
+	var ch byte
+	for i := 0; i < len(s); i++ {
+		if val, ok := m[s[i]]; val == 0 || !ok {
+			ch = s[i]
+			break
+		} else {
+			m[s[i]]--
+		}
+	}
+	return ch
+}
+
+
+
 func main() {
 	reverseVowels("hello")
 

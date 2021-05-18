@@ -38,6 +38,8 @@ func (t *teacher) String() string {
 }
 
 func main() {
+
+	fmt.Printf("%b",232)
 	// 结构体指针的数组1
 	arr1 := []*student{
 		{Age: 1, Name: "111"},

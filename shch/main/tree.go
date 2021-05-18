@@ -233,6 +233,32 @@ func isEqual(grid [][]int, i, j, x, y int) bool {
 	return true
 }
 
+//二叉树左叶子和
+func sumOfLeftLeaves(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	return Leave(root.Left, true) +Leave(root.Right, false)
+}
+
+func sumOfRightLeaves(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	return Leave(root.Left, false) +Leave(root.Right, true)
+}
+
+func Leave(root *TreeNode, dir bool) int {
+	if root == nil {
+		return 0
+	}
+	if root.Left == nil && root.Right == nil && dir {
+		return root.Val
+	}
+	return Leave(root.Left, true) + Leave(root.Right, false)
+}
+
+
 func main() {
 
 }

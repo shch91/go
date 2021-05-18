@@ -265,7 +265,31 @@ func isUgly(n int) bool {
 	return true
 }
 
+func toHex(num int) string {
+	if num == 0 {
+		return "0"
+	}
+	var ch = []byte{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'}
+	var ans []byte
+	t := uint32(num)
+	for t != 0 {
+		tmp := t & 15
+		ans = append(ans, ch[tmp])
+		t >>= 4
+	}
+	return reverseStr(string(ans))
+}
+
+func reverseStr(str string) string {
+	var res []byte
+	for i := len(str) - 1; i >= 0; i-- {
+		res = append(res, str[i])
+	}
+	return string(res)
+}
+
 func main() {
+	fmt.Println(toHex(16))
 	fmt.Println(isUgly(-2147483648))
 	fmt.Printf("val=%v \n", fraction([]int{3, 2, 0, 2}))
 	fmt.Println(removeKdigits("112", 1))
