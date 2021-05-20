@@ -297,14 +297,74 @@ func Con(nums []int) NumArray {
 	for i := 0; i < len(nums); i++ {
 		sum[i+1] = sum[i] + nums[i]
 	}
-	return NumArray{s:sum}
+	return NumArray{s: sum}
 }
 
 func (this *NumArray) SumRange(left int, right int) int {
-   return this.s[right+1]-this.s[left]
+	return this.s[right+1] - this.s[left]
+}
+
+func thirdMax(nums []int) int {
+	max := func(a, b int) int {
+		if a > b {
+			return a
+		}
+		return b
+	}
+	l := len(nums)
+	if l < 3 {
+		if l == 2 {
+			return max(nums[0], nums[1])
+		}
+		return nums[0]
+	}
+	//降序排序
+	sort.Slice(nums, func(i, j int) bool {
+		return nums[i] > nums[j]
+	})
+	//第几大元素
+	var count = 0
+	for i := 1; i < l; i++ {
+		if nums[i] != nums[i-1] {
+			count++
+		}
+		if count == 2 {
+			return nums[i]
+		}
+	}
+	return nums[0]
+}
+
+//找到数组中未出现的数字
+func findDisappearedNumbers(nums []int) []int {
+	var abs = func(v int) int {
+		if v > 0 {
+			return v
+		} else {
+			return -v
+		}
+	}
+
+	for _, val := range nums {
+		if val > 0 {
+			nums[val-1] = -abs(nums[val-1])
+		} else {
+			nums[-val-1] = -abs(nums[-val-1])
+		}
+
+	}
+	var ans []int
+	for i, _ := range nums {
+		if nums[i] > 0 {
+			ans = append(ans, i+1)
+		}
+	}
+	return ans
 }
 
 func main() {
+	findDisappearedNumbers([]int{4, 3, 2, 7, 8, 2, 3, 1})
+	fmt.Println(thirdMax([]int{4, 7, 5, 3}))
 	fmt.Println(grayCode(4))
 	reorderSpaces("a b   c d")
 	canMakeArithmeticProgression([]int{3, 5, 1})

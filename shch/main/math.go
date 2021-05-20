@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"shch/main/util"
 )
 
 func sum(s []int, c chan int) {
@@ -288,7 +289,17 @@ func reverseStr(str string) string {
 	return string(res)
 }
 
+func minMoves(nums []int) int {
+	m := util.Min(nums...)
+	var ans int
+	for _, val := range nums {
+		ans += val - m
+	}
+	return ans
+}
+
 func main() {
+	fmt.Println(minMoves([]int{1, 1, 1000}))
 	fmt.Println(toHex(16))
 	fmt.Println(isUgly(-2147483648))
 	fmt.Printf("val=%v \n", fraction([]int{3, 2, 0, 2}))

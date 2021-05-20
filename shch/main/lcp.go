@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"shch/main/util"
 	"sort"
 )
 
@@ -40,32 +41,11 @@ func storeWater(bucket []int, vat []int) int {
 	return ans
 }
 
-//最小元素
-func min(args ...int) int {
-	var m = args[0]
-	for i := 1; i < len(args); i++ {
-		if args[i] < m {
-			m = args[i]
-		}
-	}
-	return m
-}
-
-//最大元素
-func max(args ...int) int {
-	var m = args[0]
-	for i := 1; i < len(args); i++ {
-		if args[i] > m {
-			m = args[i]
-		}
-	}
-	return m
-}
 
 //乐队站位
 func orchestraLayout(num int, xPos int, yPos int) int {
 	//所在第几圈
-	n := min(xPos, yPos, num-xPos-1, num-yPos-1)
+	n := util.Min(xPos, yPos, num-xPos-1, num-yPos-1)
 	//前n-1圈元素总数
 	kinds := 4*n*num - 4*n - 4*n*(n-1)
 	//判断所在的边

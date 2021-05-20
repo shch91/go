@@ -364,7 +364,43 @@ func findTheDifference(s string, t string) byte {
 	return ch
 }
 
+//最长回文字符串
+func longestPalindrome(s string) int {
+	var m = make(map[byte]int)
+	for i := 0; i < len(s); i++ {
+		m[s[i]]++
+	}
+	var ans = 0
+	for _, v := range m {
+		if v%2 == 0 {
+			ans += v
+		} else if v > 1 {
+			ans += v - 1
+		}
+	}
+	if ans < len(s) {
+		return ans + 1
+	}
+	return ans
+}
 
+func addStrings(num1 string, num2 string) string {
+	ans := ""
+	add := 0
+	for i, j := len(num1)-1, len(num2)-1; i >= 0 || j >= 0 || add != 0; i, j = i-1, j-1 {
+		var x, y int
+		if i >= 0 {
+			x = int(num1[i] - '0')
+		}
+		if j >= 0 {
+			y = int(num2[j] - '0')
+		}
+		result := x + y + add
+		ans = strconv.Itoa(result%10) + ans
+		add = result / 10
+	}
+	return ans
+}
 
 func main() {
 	reverseVowels("hello")
