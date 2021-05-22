@@ -362,6 +362,25 @@ func findDisappearedNumbers(nums []int) []int {
 	return ans
 }
 
+func findContentChildren(g []int, s []int) int {
+	sort.Slice(g, func(i, j int) bool {
+		return g[i] < g[j]
+	})
+	sort.Slice(s, func(i, j int) bool {
+		return s[i] < s[j]
+	})
+	var ans = 0
+	for i, j := 0, 0; i < len(g) && j < len(s); i, j = i+1, j+1 {
+		for j< len(s) &&g[i]>s[j]{
+			j++
+		}
+		if j<len(s){
+			ans++
+		}
+	}
+	return ans
+}
+
 func main() {
 	findDisappearedNumbers([]int{4, 3, 2, 7, 8, 2, 3, 1})
 	fmt.Println(thirdMax([]int{4, 7, 5, 3}))

@@ -402,7 +402,67 @@ func addStrings(num1 string, num2 string) string {
 	return ans
 }
 
+//bf模式匹配
+func bf(s, p string) int {
+	var i, j = 0, 0
+	for i < len(s) && j < len(p) {
+		if s[i] == p[j] {
+			i++
+			j++
+		} else {
+			i = i - j + 1
+			j = 0
+		}
+	}
+	if j == len(p) {
+		return i - j
+	}
+	return -1
+}
+
+//返回字符串的next数组
+func next(s string) []int {
+	var k, j = 0, -1
+	var next = make([]int, len(s))
+	next[0] = -1
+	for j < len(s)-1 {
+		if k == -1 || s[j] == s[k] {
+			j++
+			k++
+			next[j] = k
+		} else {
+			k = next[k]
+		}
+	}
+	return next
+}
+func kmp(s, p string) int {
+	var i, j = 0, 0
+	n := next(p)
+	for i < len(s) && j < len(p) {
+		if j == -1 || s[i] != p[j] {
+			i++
+			j++
+		} else {
+			j = n[j]
+		}
+	}
+	if j == len(p) {
+		return i - j
+	}
+	return -1
+}
+
+func repeatedSubstringPattern(s string) bool {
+	if len(s) <= 1 {
+		return true
+	}
+	return true
+}
+
 func main() {
+
+	next("abcabcab")
 	reverseVowels("hello")
 
 	fmt.Println(wordPattern("abba", "dog cat cat dog"))
