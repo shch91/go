@@ -420,49 +420,102 @@ func bf(s, p string) int {
 	return -1
 }
 
-//返回字符串的next数组
-func next(s string) []int {
-	var k, j = 0, -1
-	var next = make([]int, len(s))
-	next[0] = -1
-	for j < len(s)-1 {
-		if k == -1 || s[j] == s[k] {
-			j++
-			k++
-			next[j] = k
-		} else {
-			k = next[k]
+//字符串匹配
+func kmp(query, pattern string) bool {
+	n, m := len(query), len(pattern)
+	fail := make([]int, m)
+	for i := 0; i < m; i++ {
+		fail[i] = -1
+	}
+	for i := 1; i < m; i++ {
+		j := fail[i-1]
+		for j != -1 && pattern[j+1] != pattern[i] {
+			j = fail[j]
+		}
+		if pattern[j+1] == pattern[i] {
+			fail[i] = j + 1
 		}
 	}
-	return next
-}
-func kmp(s, p string) int {
-	var i, j = 0, 0
-	n := next(p)
-	for i < len(s) && j < len(p) {
-		if j == -1 || s[i] != p[j] {
-			i++
-			j++
-		} else {
-			j = n[j]
+	match := -1
+	for i := 1; i < n-1; i++ {
+		for match != -1 && pattern[match+1] != query[i] {
+			match = fail[match]
+		}
+		if pattern[match+1] == query[i] {
+			match++
+			if match == m-1 {
+				return true
+			}
 		}
 	}
-	if j == len(p) {
-		return i - j
-	}
-	return -1
+	return false
 }
 
 func repeatedSubstringPattern(s string) bool {
-	if len(s) <= 1 {
-		return true
+	return kmp(s+s, s)
+}
+
+//岛屿周长
+func islandPerimeter(grid [][]int) int {
+	var row, col = len(grid), len(grid[0])
+	var edge = 0
+	for i := 0; i < row; i++ {
+		for j := 0; j < col; j++ {
+			if grid[i][j] != 1 {
+				continue
+			}
+			//上
+			if i-1 < 0 || grid[i-1][j] == 0 {
+				edge++
+			}
+			//右
+			if j+1 == col || grid[i][j+1] == 0 {
+				edge++
+			}
+			//下
+			if i+1 == row || grid[i+1][j] == 0 {
+				edge++
+			}
+			//左
+			if j-1 < 0 || grid[i][j-1] == 0 {
+				edge++
+			}
+		}
 	}
-	return true
+	return edge
+}
+
+//格式话秘钥
+func licenseKeyFormatting(s string, k int) string {
+
+	var con []byte
+	for i := 0; i < len(s); i++ {
+		if s[i] != '-' {
+			con = append(con, s[i])
+		}
+	}
+	var ans []byte
+
+	con = []byte(strings.ToUpper(string(con)))
+	if len(con)%k > 0 {
+		ans = append(ans, con[0:len(con)%k]...)
+		if len(con)%k < len(con) {
+			ans = append(ans, '-')
+		}
+	}
+	for i := len(con) % k; i < len(con); i += k {
+		ans = append(ans, con[i:i+k]...)
+		if i+k < len(con) {
+			ans = append(ans, '-')
+		}
+	}
+	return string(ans)
 }
 
 func main() {
-
-	next("abcabcab")
+	fmt.Println(licenseKeyFormatting("2", 2))
+	fmt.Println(islandPerimeter([][]int{{1, 0}}))
+	repeatedSubstringPattern("abcabcab")
 	reverseVowels("hello")
 
 	fmt.Println(wordPattern("abba", "dog cat cat dog"))
