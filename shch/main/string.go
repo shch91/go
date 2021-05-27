@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -512,7 +513,82 @@ func licenseKeyFormatting(s string, k int) string {
 	return string(ans)
 }
 
+//同一行键盘打印字符
+func findWords(words []string) []string {
+	var one, two, three = "qwertyuiop", "asdfghjkl", "zxcvbnm"
+	var oneUp, twoUp, threeUp = strings.ToUpper(one), strings.ToUpper(two), strings.ToUpper(three)
+
+	var ans []string
+	for i := 0; i < len(words); i++ {
+		//每一个字符串在每行键盘中出现的次数
+		var count1, count2, count3 = 0, 0, 0
+		for j := 0; j < len(words[i]); j++ {
+
+			if strings.IndexByte(one, words[i][j]) >= 0 || strings.IndexByte(oneUp, words[i][j]) >= 0 {
+				count1++
+			}
+			if strings.IndexByte(two, words[i][j]) >= 0 || strings.IndexByte(twoUp, words[i][j]) >= 0 {
+				count2++
+			}
+			if strings.IndexByte(three, words[i][j]) >= 0 || strings.IndexByte(threeUp, words[i][j]) >= 0 {
+				count3++
+			}
+		}
+		if count1 == len(words[i]) || count2 == len(words[i]) || len(words[i]) == count3 {
+			ans = append(ans, words[i])
+		}
+	}
+	return ans
+}
+
+//结构体排序
+type Scu struct {
+	Score int
+	Index int
+}
+
+//相对名次
+func findRelativeRanks(score []int) []string {
+	var t []Scu
+	for i, val := range score {
+		t = append(t, Scu{Score: val, Index: i})
+	}
+	//降序排列
+	sort.SliceStable(t, func(i, j int) bool {
+		return t[i].Score > t[j].Score
+	})
+
+	var ans = make([]string, len(score))
+	for i := 0; i < len(t); i++ {
+		if i == 0 {
+			ans[t[i].Index] = "Gold Medal"
+		} else if i == 1 {
+			ans[t[i].Index] = "Silver Medal"
+		} else if i == 2 {
+			ans[t[i].Index] = "Bronze Medal"
+		} else {
+			ans[t[i].Index] = strconv.Itoa(i + 1)
+		}
+	}
+	return ans
+}
+
+//大写检测
+func detectCapitalUse(word string) bool {
+	var cnt, index = 0, -1
+	for i, val := range word {
+		if val >= 'A' && val <= 'Z' {
+			index = i
+			cnt++
+		}
+	}
+	return cnt == 0 || (index == 0 && cnt == 1) || cnt == len(word)
+}
+
 func main() {
+	fmt.Println(strings.IndexByte("ASDFGHJKL", 'A'))
+
+	fmt.Println(findWords([]string{"Hello", "Alaska", "Dad", "Peace"}))
 	fmt.Println(licenseKeyFormatting("2", 2))
 	fmt.Println(islandPerimeter([][]int{{1, 0}}))
 	repeatedSubstringPattern("abcabcab")

@@ -266,6 +266,7 @@ func isUgly(n int) bool {
 	return true
 }
 
+//十六进制
 func toHex(num int) string {
 	if num == 0 {
 		return "0"
@@ -279,6 +280,24 @@ func toHex(num int) string {
 		t >>= 4
 	}
 	return reverseStr(string(ans))
+}
+
+//7进制
+func convertToBase7(num int) string {
+	if num == 0 {
+		return "0"
+	}
+	var t = int(math.Abs(float64(num)))
+	var ans []byte
+	for t != 0 {
+		ans = append(ans, byte(t%7)+'0')
+		t /= 7
+	}
+	str := reverseStr(string(ans))
+	if num < 0 {
+		return "-" + str
+	}
+	return str
 }
 
 func reverseStr(str string) string {
@@ -298,7 +317,44 @@ func minMoves(nums []int) int {
 	return ans
 }
 
+//构造矩形面积
+func constructRectangle(area int) []int {
+	var w = 1
+	var l = area / w
+	w = int(math.Sqrt(float64(area)))
+	for w >= 1 {
+		if area%w == 0 {
+			return []int{area / w, w}
+		}
+		w -= 1
+	}
+	return []int{l, w}
+}
+
+//完美数
+func checkPerfectNumber(num int) bool {
+	var s = 0
+	for i := 1; i*i <= num; i++ {
+		if num%i == 0 {
+			s += i
+			if i*i != num {
+				s += num / i
+			}
+		}
+	}
+	return s-num == num
+}
+
+func fib(n int) int {
+    if n<=1{
+    	return n
+	}
+	return fib(n-1)+fib(n-2)
+}
+
 func main() {
+	fmt.Println(convertToBase7(-7))
+	fmt.Println(constructRectangle(4))
 	fmt.Println(minMoves([]int{1, 1, 1000}))
 	fmt.Println(toHex(16))
 	fmt.Println(isUgly(-2147483648))
