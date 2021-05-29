@@ -279,7 +279,7 @@ func toHex(num int) string {
 		ans = append(ans, ch[tmp])
 		t >>= 4
 	}
-	return reverseStr(string(ans))
+	return revStr(string(ans))
 }
 
 //7进制
@@ -293,14 +293,14 @@ func convertToBase7(num int) string {
 		ans = append(ans, byte(t%7)+'0')
 		t /= 7
 	}
-	str := reverseStr(string(ans))
+	str := revStr(string(ans))
 	if num < 0 {
 		return "-" + str
 	}
 	return str
 }
 
-func reverseStr(str string) string {
+func revStr(str string) string {
 	var res []byte
 	for i := len(str) - 1; i >= 0; i-- {
 		res = append(res, str[i])

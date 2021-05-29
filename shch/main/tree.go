@@ -238,14 +238,14 @@ func sumOfLeftLeaves(root *TreeNode) int {
 	if root == nil {
 		return 0
 	}
-	return Leave(root.Left, true) +Leave(root.Right, false)
+	return Leave(root.Left, true) + Leave(root.Right, false)
 }
 
 func sumOfRightLeaves(root *TreeNode) int {
 	if root == nil {
 		return 0
 	}
-	return Leave(root.Left, false) +Leave(root.Right, true)
+	return Leave(root.Left, false) + Leave(root.Right, true)
 }
 
 func Leave(root *TreeNode, dir bool) int {
@@ -258,6 +258,47 @@ func Leave(root *TreeNode, dir bool) int {
 	return Leave(root.Left, true) + Leave(root.Right, false)
 }
 
+func getMinimumDifference(root *TreeNode) int {
+	ans, pre := math.MaxInt64, -1
+	var dfs func(*TreeNode)
+	//递归中序遍历
+	dfs = func(node *TreeNode) {
+		if node == nil {
+			return
+		}
+		dfs(node.Left)
+		if pre != -1 && node.Val-pre < ans {
+			ans = node.Val - pre
+		}
+		pre = node.Val
+		dfs(node.Right)
+	}
+	dfs(root)
+	return ans
+}
+
+/**
+ * Definition for a MultiNode.
+ */
+type MultiNode struct {
+	Val      int
+	Children []*MultiNode
+}
+
+//求多叉树的最大深度
+func maxDepth(root *MultiNode) int {
+	if root == nil {
+		return 0
+	}
+	var deep = 1
+	for _, ch := range root.Children {
+		chDep := maxDepth(ch)
+		if chDep+1 > deep {
+			deep = chDep + 1
+		}
+	}
+	return deep
+}
 
 func main() {
 

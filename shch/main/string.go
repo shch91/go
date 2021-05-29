@@ -585,7 +585,65 @@ func detectCapitalUse(word string) bool {
 	return cnt == 0 || (index == 0 && cnt == 1) || cnt == len(word)
 }
 
+func findLUSlength(a string, b string) int {
+	if a == b {
+		return -1
+	}
+	if len(a) >= len(b) {
+		return len(a)
+	}
+	return len(b)
+}
+
+//反转前k后续
+func reverseStr(s string, k int) string {
+	var ans []byte
+	var i int
+	for i = 0; i+k-1 < len(s); i += 2 * k {
+		v := i + k - 1
+		for v >= i {
+			ans = append(ans, s[v])
+			v--
+		}
+		v = i + k
+		for v < i+2*k && v < len(s) {
+			ans = append(ans, s[v])
+			v++
+		}
+	}
+	//剩下反转
+	if i < len(s) {
+		t := len(s) - 1
+		for t >= i {
+			ans = append(ans, s[t])
+			t--
+		}
+	}
+	return string(ans)
+}
+
+func checkRecord(s string) bool {
+	var aCnt, conL = 0, 0
+	for i := 0; i < len(s); i++ {
+		if s[i] == 'A' {
+			aCnt++
+		}
+		if s[i] == 'L' {
+			conL++
+			if conL > 2 || aCnt > 1 {
+				return false
+			}
+		} else {
+			conL = 0
+		}
+	}
+	return aCnt <= 1 && conL <= 2
+}
+
 func main() {
+	//"PPALLP"
+	fmt.Println(checkRecord("PPALLP"))
+	fmt.Println(reverseStr("abcdefg", 2))
 	fmt.Println(strings.IndexByte("ASDFGHJKL", 'A'))
 
 	fmt.Println(findWords([]string{"Hello", "Alaska", "Dad", "Peace"}))
