@@ -401,24 +401,55 @@ func matrixReshape(mat [][]int, r int, c int) [][]int {
 
 //种花问题
 func canPlaceFlowers(flowerbed []int, n int) bool {
-	var ans ,prev= 0,-1
+	var ans, prev = 0, -1
 	var l = len(flowerbed)
 	for i := 0; i < l; i++ {
 		if flowerbed[i] == 1 {
-			if prev<0{
-				ans+=i/2
-			}else{
-				ans+=(i-prev-2)/2
+			if prev < 0 {
+				ans += i / 2
+			} else {
+				ans += (i - prev - 2) / 2
 			}
-			prev=i
+			prev = i
 		}
 	}
-	if prev<0{
-		ans+=(l+1)/2
-	}else{
-		ans+=(l-prev-1)/2
+	if prev < 0 {
+		ans += (l + 1) / 2
+	} else {
+		ans += (l - prev - 1) / 2
 	}
-	return ans>=n
+	return ans >= n
+}
+
+func maximumProduct(nums []int) int {
+	var min1, min2 = math.MaxInt32, math.MaxInt32
+	var max1, max2, max3 = math.MinInt32, math.MinInt32, math.MinInt32
+	for _, val := range nums {
+		//最小的两个数
+		if val < min1 {
+			min2 = min1
+			min1 = val
+		} else if val < min2 {
+			min2 = val
+		}
+
+		//最大的是三个数
+		if val > max1 {
+			max3 = max2
+			max2 = max1
+			max1 = val
+		} else if val > max2 {
+			max3 = max2
+			max2 = val
+		} else if val > max3 {
+			max3 = val
+		}
+	}
+	var a, b = max1 * max2 * max3, max1 * min1 * min2
+	if a > b {
+		return a
+	}
+	return b
 }
 
 func main() {

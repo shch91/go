@@ -378,6 +378,33 @@ func mergeTrees(root1 *TreeNode, root2 *TreeNode) *TreeNode {
 	return root
 }
 
+//每层节点平均值
+func averageOfLevels(root *TreeNode) []float64 {
+	var ans []float64
+	var q []*TreeNode
+	q = append(q, root)
+	//层次遍历
+	for len(q) > 0 {
+		//当前层次节点数量
+		var cnt = len(q)
+		sum := 0
+		for k := cnt; k > 0; k-- {
+			t := q[0]
+			q = q[1:]
+			sum += t.Val
+			if t.Left != nil {
+				q = append(q, t.Left)
+			}
+			if t.Right != nil {
+				q = append(q, t.Right)
+			}
+
+		}
+		ans = append(ans, float64(sum)/float64(cnt))
+	}
+	return ans
+}
+
 func main() {
 
 }
