@@ -2,6 +2,7 @@ package main
 
 import (
 	"math"
+	"strconv"
 )
 
 type TreeNode struct {
@@ -298,6 +299,83 @@ func maxDepth(root *MultiNode) int {
 		}
 	}
 	return deep
+}
+
+//判断二叉树是否子树
+func isSubtree(root *TreeNode, subRoot *TreeNode) bool {
+	if root == nil && subRoot == nil {
+		return true
+	}
+	if root == nil || subRoot == nil {
+		return false
+	}
+	return isSame(root, subRoot) || isSubtree(root.Left, subRoot) || isSubtree(root.Right, subRoot)
+
+}
+
+//判断两颗树是否一样
+func isSame(a, b *TreeNode) bool {
+	//都为空
+	if a == nil && b == nil {
+		return true
+	}
+	//只有一个为空
+	if a == nil || b == nil {
+		return false
+	}
+	if a.Val != b.Val {
+		return false
+	}
+	return isSame(a.Left, b.Left) && isSame(a.Right, b.Right)
+}
+
+//先序遍历转换为字符串
+func tree2str(root *TreeNode) string {
+	if root == nil {
+		return "()"
+	}
+	var ans = strconv.Itoa(root.Val)
+
+	//左节点不为空
+	if root.Left != nil {
+		ans += "("
+		ans += tree2str(root.Left)
+		ans += ")"
+	} else { //左节点为空，存在右节点 补空括号
+		if root.Right != nil {
+			ans += tree2str(root.Left)
+		}
+	}
+
+	if root.Right != nil {
+		ans += "("
+		ans += tree2str(root.Right)
+		ans += ")"
+	}
+	return ans
+}
+
+//合并二叉树
+func mergeTrees(root1 *TreeNode, root2 *TreeNode) *TreeNode {
+
+	if root1 == nil {
+		return root2
+	}
+	if root2 == nil {
+		return root1
+	}
+
+	var root = &TreeNode{}
+	if root1 != nil {
+		root.Val += root1.Val
+	}
+	if root2 != nil {
+		root.Val += root2.Val
+	}
+	root.Left = mergeTrees(root1.Left, root2.Left)
+	root.Right = mergeTrees(root1.Right, root2.Right)
+
+	return root
 }
 
 func main() {

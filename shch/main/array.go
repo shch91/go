@@ -371,14 +371,54 @@ func findContentChildren(g []int, s []int) int {
 	})
 	var ans = 0
 	for i, j := 0, 0; i < len(g) && j < len(s); i, j = i+1, j+1 {
-		for j< len(s) &&g[i]>s[j]{
+		for j < len(s) && g[i] > s[j] {
 			j++
 		}
-		if j<len(s){
+		if j < len(s) {
 			ans++
 		}
 	}
 	return ans
+}
+
+//重塑矩阵
+func matrixReshape(mat [][]int, r int, c int) [][]int {
+	if len(mat)*len(mat[0]) != r*c {
+		return mat
+	}
+	var col = len(mat[0])
+	var ans [][]int
+	for i := 0; i < r; i++ {
+		var t []int
+		for j := 0; j < c; j++ {
+			index := i*c + j
+			t = append(t, mat[index/col][index%col])
+		}
+		ans = append(ans, t)
+	}
+	return ans
+}
+
+//种花问题
+func canPlaceFlowers(flowerbed []int, n int) bool {
+	var ans ,prev= 0,-1
+	var l = len(flowerbed)
+	for i := 0; i < l; i++ {
+		if flowerbed[i] == 1 {
+			if prev<0{
+				ans+=i/2
+			}else{
+				ans+=(i-prev-2)/2
+			}
+			prev=i
+		}
+	}
+	if prev<0{
+		ans+=(l+1)/2
+	}else{
+		ans+=(l-prev-1)/2
+	}
+	return ans>=n
 }
 
 func main() {
