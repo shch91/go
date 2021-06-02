@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math"
 	"strconv"
 )
@@ -405,6 +406,49 @@ func averageOfLevels(root *TreeNode) []float64 {
 	return ans
 }
 
-func main() {
+var v []int
 
+//是否存在两束之和为k
+func findTarget(root *TreeNode, k int) bool {
+	v = v[0:0]
+	dsfBST(root)
+	l := len(v)
+	for i, j := 0, l-1; i < j; {
+		t := v[i] + v[j]
+		if t == k {
+			return true
+		} else if t > k {
+			j--
+		} else {
+			i++
+		}
+	}
+	return false
+}
+
+//二叉树中查找节点
+func dsfBST(root *TreeNode) {
+	if root != nil {
+		dsfBST(root.Left)
+		v = append(v, root.Val)
+		dsfBST(root.Right)
+	}
+}
+
+func main() {
+	root := &TreeNode{Val: 5}
+	val3 := &TreeNode{Val: 3}
+	val2 := &TreeNode{Val: 2}
+	val4 := &TreeNode{Val: 4}
+	val6 := &TreeNode{Val: 6}
+	val7 := &TreeNode{Val: 7}
+
+	root.Left = val3
+	root.Right = val6
+
+	val3.Left = val2
+	val3.Right = val4
+
+	val6.Right = val7
+	fmt.Println(findTarget(root, 9))
 }

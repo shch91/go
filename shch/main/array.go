@@ -452,7 +452,57 @@ func maximumProduct(nums []int) int {
 	return b
 }
 
+func findMaxAverage(nums []int, k int) float64 {
+	var sum = 0
+	var result float64
+	for t := 0; t < k; t++ {
+		sum += nums[t]
+	}
+	result = float64(sum) / float64(k)
+	for t := k; t < len(nums); t++ {
+		sum += nums[t] - nums[t-k]
+		avg := float64(sum) / float64(k)
+		if avg > result {
+			result = avg
+		}
+	}
+	return result
+}
+
+//找重复与丢失的数字
+func findErrorNums(nums []int) []int {
+	var l = len(nums)
+	var xor, xor0, xor1 = 0, 0, 0
+	for i := 1; i <= l; i++ {
+		xor ^= i ^ nums[i-1]
+	}
+	//最小比特位置
+	var val = xor & ^(xor - 1)
+	for i := 1; i <= l; i++ {
+		if nums[i-1]&val != 0 {
+			xor1 ^= nums[i-1]
+		} else {
+			xor0 ^= nums[i-1]
+		}
+		if i&val != 0 {
+			xor1 ^= i
+		} else {
+			xor0 ^= i
+		}
+	}
+	for i := 0; i <l; i++ {
+		if nums[i] == xor0{
+			return [] int{xor0, xor1}
+		}
+
+	}
+	return  []int{xor1, xor0}
+
+
+}
+
 func main() {
+	fmt.Printf("%v",findErrorNums([]int{3,2,3,4,6,5}))
 	findDisappearedNumbers([]int{4, 3, 2, 7, 8, 2, 3, 1})
 	fmt.Println(thirdMax([]int{4, 7, 5, 3}))
 	fmt.Println(grayCode(4))

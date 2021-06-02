@@ -640,8 +640,25 @@ func checkRecord(s string) bool {
 	return aCnt <= 1 && conL <= 2
 }
 
+func judgeCircle(moves string) bool {
+	var left, right, up, down = 0, 0, 0, 0
+	for i := 0; i < len(moves); i++ {
+		if moves[i] == 'U' {
+			up++
+		} else if moves[i] == 'D' {
+			down--
+		} else if moves[i] == 'L' {
+			left++
+		} else {
+			right--
+		}
+	}
+	return left+right == 0 && up+down == 0
+}
+
 func main() {
 	//"PPALLP"
+	fmt.Println(judgeCircle("LDRRLRUULR"))
 	fmt.Println(checkRecord("PPALLP"))
 	fmt.Println(reverseStr("abcdefg", 2))
 	fmt.Println(strings.IndexByte("ASDFGHJKL", 'A'))
