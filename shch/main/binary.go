@@ -35,8 +35,25 @@ func findComplement(num int) int {
 	return num ^ (1<<high - 1)
 }
 
-func main() {
+//二级制中最低位1
+func binLowOne(t int) int {
+	return t &^ (t - 1)
+}
 
+//正整数二进制交替
+func hasAlternatingBits(n int) bool {
+
+	for flag, t := n&1, n>>1; t > 0; t >>= 1 {
+		if t&1 == flag {
+			return false
+		}
+		flag = flag ^ 1
+	}
+	return true
+}
+
+func main() {
+	fmt.Println(hasAlternatingBits(6))
 	fmt.Println(findComplement(1))
 	fmt.Println(binaryGap(22))
 }

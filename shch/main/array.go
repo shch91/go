@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -544,21 +545,109 @@ func checkPossibility(nums []int) bool {
 
 //最长连续递增子序列
 func findLengthOfLCIS(nums []int) int {
-	var ans,r = 1,1
+	var ans, r = 1, 1
 	for i := 1; i < len(nums); i++ {
 		if nums[i] > nums[i+1] {
 			ans++
-		}else{
-			ans=1
+		} else {
+			ans = 1
 		}
-		if ans>r{
-			r=ans
+		if ans > r {
+			r = ans
 		}
 	}
 	return r
 }
 
+//数组积符号
+func arraySign(nums []int) int {
+	var ans = 1
+	for _, v := range nums {
+		if signFunc(v) == 0 {
+			return 0
+		} else if signFunc(v) < 0 {
+			ans = -ans
+		}
+	}
+	return ans
+}
+
+func signFunc(p int) int {
+	if p > 0 {
+		return 1
+	} else if p < 0 {
+		return -1
+	}
+	return 0
+}
+
+//二分查找
+func search(nums []int, target int) int {
+	for i, j := 0, len(nums)-1; i <= j; {
+		mid := (i + j) >> 1
+		if nums[mid] == target {
+			return mid
+		} else if nums[mid] > target {
+			j = mid - 1
+		} else {
+			i = mid + 1
+		}
+	}
+	return -1
+}
+
+//棒球分数
+func calPoints(ops []string) int {
+	var score []int
+	var sum = 0
+	for i := 0; i < len(ops); i++ {
+		if ops[i] == "+" {
+			l := len(score)
+			score = append(score, score[l-1]+score[l-2])
+		} else if ops[i] == "D" {
+			l := len(score)
+			score = append(score, 2*score[l-1])
+		} else if ops[i] == "C" {
+			score = score[:len(score)-1]
+		} else {
+			v, _ := strconv.Atoi(ops[i])
+			score = append(score, v)
+		}
+	}
+
+	for _, v := range score {
+		sum += v
+	}
+	return sum
+}
+
+/**
+ * Definition for Employee.
+ */
+type Employee struct {
+	Id           int
+	Importance   int
+	Subordinates []int
+}
+
+//员工重要程度
+func getImportance(employees []*Employee, id int) int {
+	var ans = 0
+	for _, v := range employees {
+		//根结点
+		if v.Id == id {
+			ans += v.Importance
+			//下属权重
+			for _, c := range v.Subordinates {
+				ans += getImportance(employees, c)
+			}
+		}
+	}
+	return ans
+}
+
 func main() {
+	fmt.Println(calPoints([]string{"5", "2", "C", "D", "+"}))
 	fmt.Println(imageSmoother([][]int{{1, 1, 1},
 		{1, 0, 1},
 		{1, 1, 1}}))
