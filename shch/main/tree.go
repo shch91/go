@@ -435,6 +435,45 @@ func dsfBST(root *TreeNode) {
 	}
 }
 
+//第二小节点
+func findSecondMinimumValue(root *TreeNode) int {
+	if root == nil {
+		return -1
+	}
+	if root.Left == nil || root.Right == nil {
+		return -1
+	}
+	//存在孩子
+	lv, rv := root.Left.Val, root.Right.Val
+	r := findSecondMinimumValue(root.Right)
+	l := findSecondMinimumValue(root.Left)
+	if lv == root.Val && lv != rv { //左孩子等于根
+		if l != -1 {
+			return min(rv, l)
+		}
+		return rv
+	} else if rv == root.Val && lv != rv { //右孩子等于根
+		if r != -1 {
+			return min(lv, r)
+		}
+		return lv
+	}
+	//左右相等
+	if r == -1 {
+		return l
+	} else if l == -1 {
+		return r
+	}
+	return min(l, r)
+}
+
+func min(i, j int) int {
+	if i > j {
+		return j
+	}
+	return i
+}
+
 func main() {
 	root := &TreeNode{Val: 5}
 	val3 := &TreeNode{Val: 3}

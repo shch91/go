@@ -490,19 +490,63 @@ func findErrorNums(nums []int) []int {
 			xor0 ^= i
 		}
 	}
-	for i := 0; i <l; i++ {
-		if nums[i] == xor0{
-			return [] int{xor0, xor1}
+	for i := 0; i < l; i++ {
+		if nums[i] == xor0 {
+			return []int{xor0, xor1}
 		}
 
 	}
-	return  []int{xor1, xor0}
+	return []int{xor1, xor0}
+}
 
+//平滑图片
+func imageSmoother(img [][]int) [][]int {
+	var ans [][]int
+	var r, l = len(img), len(img[0])
+	for i := 0; i < r; i++ {
+		var row []int
+		for j := 0; j < l; j++ {
+			sum, cnt := 0, 0
+			//每个元素
+			for m := -1; m <= 1; m++ {
+				for n := -1; n <= 1; n++ {
+					if i+m >= 0 && i+m < r && j+n >= 0 && j+n < l {
+						sum += img[i+m][j+n]
+						cnt++
+					}
+				}
+			}
+			row = append(row, sum/cnt)
+		}
+		ans = append(ans, row)
+	}
+	return ans
+}
+
+//非递减数列
+func checkPossibility(nums []int) bool {
+	var l, cnt = len(nums), 0
+	for i := 0; i < l-1; i++ {
+		x, y := nums[i], nums[i+1]
+		if x > y {
+			cnt++
+			if cnt > 1 {
+				return false
+			}
+			if i>0 &&y<nums[i-1]{
+				nums[i+1]=x
+			}
+		}
+	}
+	return true
 
 }
 
 func main() {
-	fmt.Printf("%v",findErrorNums([]int{3,2,3,4,6,5}))
+	fmt.Println(imageSmoother([][]int{{1, 1, 1},
+		{1, 0, 1},
+		{1, 1, 1}}))
+	fmt.Printf("%v", findErrorNums([]int{3, 2, 3, 4, 6, 5}))
 	findDisappearedNumbers([]int{4, 3, 2, 7, 8, 2, 3, 1})
 	fmt.Println(thirdMax([]int{4, 7, 5, 3}))
 	fmt.Println(grayCode(4))
