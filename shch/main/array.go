@@ -533,13 +533,29 @@ func checkPossibility(nums []int) bool {
 			if cnt > 1 {
 				return false
 			}
-			if i>0 &&y<nums[i-1]{
-				nums[i+1]=x
+			if i > 0 && y < nums[i-1] {
+				nums[i+1] = x
 			}
 		}
 	}
 	return true
 
+}
+
+//最长连续递增子序列
+func findLengthOfLCIS(nums []int) int {
+	var ans,r = 1,1
+	for i := 1; i < len(nums); i++ {
+		if nums[i] > nums[i+1] {
+			ans++
+		}else{
+			ans=1
+		}
+		if ans>r{
+			r=ans
+		}
+	}
+	return r
 }
 
 func main() {

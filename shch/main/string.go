@@ -656,6 +656,28 @@ func judgeCircle(moves string) bool {
 	return left+right == 0 && up+down == 0
 }
 
+//最多删除一个字符,判断是否回文字符串
+func validPalindrome(s string) bool {
+
+	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
+		if s[i] == s[j] {
+			continue
+		} else {
+			return isPalindrome(s, i+1, j) || isPalindrome(s, i, j-1)
+		}
+	}
+	return true
+}
+
+func isPalindrome(s string, l, h int) bool {
+	for i, j := l, h; i < j; i, j = i+1, j-1 {
+		if s[i] != s[j] {
+			return false
+		}
+	}
+	return true
+}
+
 func main() {
 	//"PPALLP"
 	fmt.Println(judgeCircle("LDRRLRUULR"))
