@@ -646,6 +646,33 @@ func getImportance(employees []*Employee, id int) int {
 	return ans
 }
 
+type e struct {
+	cnt, l, r int
+}
+
+//数组的度
+func findShortestSubArray(nums []int) int {
+	var m = make(map[int]e)
+	var max, len = 0, math.MaxInt32
+	for i, v := range nums {
+		if item, ok := m[v]; ok {
+			item.cnt++
+			item.r = i
+			m[v] = item
+		} else {
+			m[v] = e{1, i, i}
+		}
+	}
+	for _, v := range m {
+		if v.cnt > max {
+			max = v.cnt
+			len = v.r - v.l+1
+		}else if v.cnt==max{
+			len=min(len,v.r - v.l+1)
+		}
+	}
+	return len
+}
 func main() {
 	fmt.Println(calPoints([]string{"5", "2", "C", "D", "+"}))
 	fmt.Println(imageSmoother([][]int{{1, 1, 1},

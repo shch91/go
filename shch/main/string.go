@@ -678,8 +678,35 @@ func isPalindrome(s string, l, h int) bool {
 	return true
 }
 
+func countBinarySubstrings(s string) int {
+	var cnt []int
+	var t, p = 1, 0
+	for i := 1; i < len(s); i++ {
+		if s[i] == s[p] {
+			t++
+		} else {
+			cnt = append(cnt, t)
+			t = 1
+			p = i
+		}
+	}
+	//最后一个数
+	cnt = append(cnt, t)
+	var ans = 0
+	for i := 1; i < len(cnt); i++ {
+		if cnt[i] > cnt[i-1] {
+			ans += cnt[i-1]
+		} else {
+			ans += cnt[i]
+		}
+	}
+	return ans
+
+}
+
 func main() {
 	//"PPALLP"
+	fmt.Println(countBinarySubstrings("00110011"))
 	fmt.Println(judgeCircle("LDRRLRUULR"))
 	fmt.Println(checkRecord("PPALLP"))
 	fmt.Println(reverseStr("abcdefg", 2))
