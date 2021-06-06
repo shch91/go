@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"shch/main/util"
 	"strconv"
 )
 
@@ -449,12 +450,12 @@ func findSecondMinimumValue(root *TreeNode) int {
 	l := findSecondMinimumValue(root.Left)
 	if lv == root.Val && lv != rv { //左孩子等于根
 		if l != -1 {
-			return min(rv, l)
+			return util.Min(rv, l)
 		}
 		return rv
 	} else if rv == root.Val && lv != rv { //右孩子等于根
 		if r != -1 {
-			return min(lv, r)
+			return util.Min(lv, r)
 		}
 		return lv
 	}
@@ -464,15 +465,9 @@ func findSecondMinimumValue(root *TreeNode) int {
 	} else if l == -1 {
 		return r
 	}
-	return min(l, r)
+	return util.Min(l, r)
 }
 
-func min(i, j int) int {
-	if i > j {
-		return j
-	}
-	return i
-}
 
 func main() {
 	root := &TreeNode{Val: 5}

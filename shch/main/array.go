@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"shch/main/util"
 	"sort"
 	"strconv"
 	"strings"
@@ -666,14 +667,43 @@ func findShortestSubArray(nums []int) int {
 	for _, v := range m {
 		if v.cnt > max {
 			max = v.cnt
-			len = v.r - v.l+1
-		}else if v.cnt==max{
-			len=min(len,v.r - v.l+1)
+			len = v.r - v.l + 1
+		} else if v.cnt == max {
+			len = util.Min(len, v.r-v.l+1)
 		}
 	}
 	return len
 }
+
+//图像渲染
+func floodFill(image [][]int, sr int, sc int, newColor int) [][]int {
+
+	dfsFlood(&image, sr, sc, image[sr][sc], newColor)
+	return image
+}
+
+func dfsFlood(img *[][]int, r, c int, color, newColor int) {
+	var row, col = len(*img), len((*img)[0])
+	(*img)[r][c] = newColor
+	//上
+	if r-1 >= 0 && (*img)[r-1][c] == color && color != newColor {
+		dfsFlood(img, r-1, c, color, newColor)
+	}
+	//下
+	if r+1 < row && (*img)[r+1][c] == color && color != newColor {
+		dfsFlood(img, r+1, c, color, newColor)
+	}
+	//左
+	if c-1 >= 0 && (*img)[r][c-1] == color && color != newColor{
+		dfsFlood(img, r, c-1, color, newColor)
+	}
+	//右
+	if c+1 < col && (*img)[r][c+1] == color && color != newColor{
+		dfsFlood(img, r, c+1, color, newColor)
+	}
+}
 func main() {
+	fmt.Println(floodFill([][]int{{0, 0, 0}, {0, 1, 1}}, 1, 1, 1))
 	fmt.Println(calPoints([]string{"5", "2", "C", "D", "+"}))
 	fmt.Println(imageSmoother([][]int{{1, 1, 1},
 		{1, 0, 1},

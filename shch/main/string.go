@@ -704,6 +704,23 @@ func countBinarySubstrings(s string) int {
 
 }
 
+func isOneBitCharacter(bits []int) bool {
+	var i int
+	for i = 0; i < len(bits)-1; {
+		i += bits[i] + 1
+	}
+	return i == len(bits)-1
+}
+
+func nextGreatestLetter(letters []byte, target byte) byte {
+	for _, v := range letters {
+    	if v>target{
+    		return v
+		}
+	}
+	return letters[0]
+}
+
 func main() {
 	//"PPALLP"
 	fmt.Println(countBinarySubstrings("00110011"))
