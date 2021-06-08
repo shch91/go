@@ -694,15 +694,69 @@ func dfsFlood(img *[][]int, r, c int, color, newColor int) {
 		dfsFlood(img, r+1, c, color, newColor)
 	}
 	//左
-	if c-1 >= 0 && (*img)[r][c-1] == color && color != newColor{
+	if c-1 >= 0 && (*img)[r][c-1] == color && color != newColor {
 		dfsFlood(img, r, c-1, color, newColor)
 	}
 	//右
-	if c+1 < col && (*img)[r][c+1] == color && color != newColor{
+	if c+1 < col && (*img)[r][c+1] == color && color != newColor {
 		dfsFlood(img, r, c+1, color, newColor)
 	}
 }
+
+//反转图像
+func flipAndInvertImage(image [][]int) [][]int {
+	for _, arr := range image {
+		for i, j := 0, len(arr)-1; i < j; i, j = i+1, j-1 {
+			arr[i], arr[j] = arr[j], arr[i]
+		}
+	}
+	for i := 0; i < len(image); i++ {
+		for j := 0; j < len(image[i]); j++ {
+			image[i][j] = image[i][j] ^ 1
+		}
+	}
+
+	return image
+}
+
+func largeGroupPositions(s string) [][]int {
+	var pre = 0
+	var i int
+	var ans [][]int
+	for i = 1; i < len(s); i++ {
+		if s[i] == s[i-1] {
+			continue
+		}
+		if i-pre >= 3 {
+			ans = append(ans, []int{pre, i - 1})
+		}
+		pre = i
+	}
+	if i-pre >= 3 {
+		ans = append(ans, []int{pre, i - 1})
+	}
+	return ans
+}
+
+func arrayRankTransform(arr []int) []int {
+	var m = make(map[int]int)
+	var t = arr[0:]
+	//去重
+	for i, v := range t {
+		m[v]++
+	}
+
+	sort.Slice(t, func(i, j int) bool {
+		return arr[i] < arr[j]
+	})
+
+
+
+
+}
+
 func main() {
+	fmt.Println(largeGroupPositions("abbxxxxzzy"))
 	fmt.Println(floodFill([][]int{{0, 0, 0}, {0, 1, 1}}, 1, 1, 1))
 	fmt.Println(calPoints([]string{"5", "2", "C", "D", "+"}))
 	fmt.Println(imageSmoother([][]int{{1, 1, 1},
