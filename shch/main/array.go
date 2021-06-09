@@ -740,19 +740,34 @@ func largeGroupPositions(s string) [][]int {
 
 func arrayRankTransform(arr []int) []int {
 	var m = make(map[int]int)
-	var t = arr[0:]
-	//去重
-	for i, v := range t {
-		m[v]++
-	}
-
+	var t = RemoveReplicaSliceInt(arr)
 	sort.Slice(t, func(i, j int) bool {
-		return arr[i] < arr[j]
+		return t[i] < t[j]
 	})
+	var ans []int
+	for i := 0; i < len(t); i++ {
+		m[t[i]] = i + 1
+	}
+	for i := 0; i < len(arr); i++ {
+		ans = append(ans, m[arr[i]])
+	}
+	return ans
+}
 
+/*
+ * slice(int类型)元素去重
+ */
+func RemoveReplicaSliceInt(slc []int) []int {
 
-
-
+	var result []int
+	tempMap := make(map[int]bool, len(slc))
+	for _, e := range slc {
+		if tempMap[e] == false {
+			tempMap[e] = true
+			result = append(result, e)
+		}
+	}
+	return result
 }
 
 func main() {

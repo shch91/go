@@ -468,6 +468,16 @@ func findSecondMinimumValue(root *TreeNode) int {
 	return util.Min(l, r)
 }
 
+func rangeSumBST(root *TreeNode, low int, high int) int {
+	if root == nil {
+		return 0
+	}
+	var sum=0
+	if root.Val>=low &&root.Val<=high{
+		sum+=root.Val
+	}
+    return sum+rangeSumBST(root.Left,low,high)+rangeSumBST(root.Right,low,high)
+}
 
 func main() {
 	root := &TreeNode{Val: 5}

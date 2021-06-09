@@ -346,13 +346,49 @@ func checkPerfectNumber(num int) bool {
 }
 
 func fib(n int) int {
-    if n<=1{
-    	return n
+	if n <= 1 {
+		return n
 	}
-	return fib(n-1)+fib(n-2)
+	return fib(n-1) + fib(n-2)
+}
+
+func countPrimeSetBits(left int, right int) int {
+	var ans = 0
+	for i := left; i <= right; i++ {
+		cnt := 0
+		for t := i; t > 0; t >>= 1 {
+			if t&1 > 0 {
+				cnt++
+			}
+		}
+		if isPrime(cnt) {
+			ans++
+		}
+	}
+	return ans
+}
+
+//质数
+//质数还有一个特点，就是它总是等于 6x-1 或者 6x+1，其中 x 是大于等于1的自然数。
+func isPrime(n int) bool {
+	if n <= 3 {
+		return n > 1
+	}
+	//与6的倍数不相邻
+	if n%6 != 1 && n%6 != 5 {
+		return false
+	}
+	for i := 5; float64(i) <= math.Floor(math.Sqrt(float64(n))); i += 6 {
+		if n%i == 0 || n%(i+2) == 0 {
+			return false
+		}
+	}
+	return true
 }
 
 func main() {
+
+	fmt.Println(countPrimeSetBits(244, 269))
 	fmt.Println(convertToBase7(-7))
 	fmt.Println(constructRectangle(4))
 	fmt.Println(minMoves([]int{1, 1, 1000}))
