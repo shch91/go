@@ -770,6 +770,24 @@ func RemoveReplicaSliceInt(slc []int) []int {
 	return result
 }
 
+func dominantIndex(nums []int) int {
+	var max = math.MinInt32
+	var index = -1
+	for i := 0; i < len(nums); i++ {
+		if nums[i] > max {
+			max = nums[i]
+			index = i
+		}
+	}
+
+	for i := 0; i < len(nums); i++ {
+		if nums[i] != max && max < 2*nums[i] {
+			return -1
+		}
+	}
+	return index
+}
+
 func main() {
 	fmt.Println(largeGroupPositions("abbxxxxzzy"))
 	fmt.Println(floodFill([][]int{{0, 0, 0}, {0, 1, 1}}, 1, 1, 1))

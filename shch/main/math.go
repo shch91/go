@@ -386,6 +386,26 @@ func isPrime(n int) bool {
 	return true
 }
 
+func numPrimeArrangements(n int) int {
+	var primeCnt = 0
+	for i := 2; i <= n; i++ {
+		if isPrime(i) {
+			primeCnt++
+		}
+	}
+    return factorial(n-primeCnt)*factorial(primeCnt)
+}
+
+//求阶乘
+func factorial(n int) int {
+	var result = 1
+	for i := 2; i <= n; i++ {
+		result *= i
+		result %= 1e9 + 7
+	}
+	return result
+}
+
 func main() {
 
 	fmt.Println(countPrimeSetBits(244, 269))
@@ -403,5 +423,5 @@ func main() {
 	fmt.Println(singleNumber([]int{-1, -1, -1, -2}))
 	var pos = 1
 	fmt.Println(^pos)
-	//fmt.Println(Fact(10))
+	fmt.Println(Fact(10))
 }

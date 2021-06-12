@@ -714,11 +714,45 @@ func isOneBitCharacter(bits []int) bool {
 
 func nextGreatestLetter(letters []byte, target byte) byte {
 	for _, v := range letters {
-    	if v>target{
-    		return v
+		if v > target {
+			return v
 		}
 	}
 	return letters[0]
+}
+
+//字符涵盖问题
+func shortestCompletingWord(licensePlate string, words []string) string {
+	var c1 = count(licensePlate)
+	var min ,index= math.MaxInt32,0
+	for i := 0; i < len(words); i++ {
+		c2 := count(words[i])
+		if dominates(c2, c1) && len(words[i]) < min {
+			min = len(words[i])
+			index=i
+		}
+	}
+	return words[index]
+}
+
+func dominates(c1, c2 []int) bool {
+	for i := 0; i < 26; i++ {
+		if c1[i] > c2[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func count(str string) []int {
+	var ans = make([]int, 26)
+	s := strings.ToLower(str)
+	for i := 0; i < len(str); i++ {
+		if s[i] >= 'a' && s[i] <= 'z' {
+			ans[s[i]-'a']++
+		}
+	}
+	return ans
 }
 
 func main() {
