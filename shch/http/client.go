@@ -1,63 +1,28 @@
-package http
+package main
 
 import (
-	"crypto/tls"
 	"fmt"
-	"io/ioutil"
-	"net"
-	"net/http"
-	"net/url"
+	"github.com/nahid/gohttp"
 	"time"
 )
 
-func TimeoutDialer(cTimeout time.Duration, rwTimeout time.Duration) func(net, addr string) (c net.Conn, err error) {
-	return func(netw, addr string) (net.Conn, error) {
-		conn, err := net.DialTimeout(netw, addr, cTimeout)
-		if err != nil {
-			return nil, err
-		}
-		conn.SetDeadline(time.Now().Add(rwTimeout))
-		return conn, nil
-	}
-}
-
 func main() {
 
-	connectTimeout := 5 * time.Second
-	readWriteTimeout := 100 * time.Millisecond
+	opt:=gohttp.SetTimeout(time.Duration(2)*time.Second)
 
-	c := http.Client{
-		Transport: &http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-			Dial:            TimeoutDialer(connectTimeout, readWriteTimeout),
-		},
-	}
+	req := gohttp.NewRequest(opt)
 
-	uri := "https://www.youtobe.com"
-	req, err := http.NewRequest(http.MethodPost, uri, nil)
+	resp, err := req.
+		FormData(map[string]string{"name": "Nahid"}).
+		Post("https://httpbin.org/post")
+
 	if err != nil {
-		fmt.Println("req error:" + err.Error())
-		return
+		panic(err)
 	}
 
-	req.Header = http.Header{}
-
-	req.Header["Connection"] = []string{"Close"}
-	req.Header["User-Agent"] = []string{"wpt-http-client/1.1"}
-
-	data := make(url.Values)
-
-	data["name"] = []string{"baixs"}
-	data["hobby"] = []string{"runing"}
-
-	resp, err := c.Do(req)
-	if err != nil {
-		fmt.Println("do error,err:" + err.Error())
-		return
+	if resp.GetStatusCode() == 200 {
+		str,_ := resp.GetBodyAsString()
+		fmt.Println(str)
 	}
-
-	respBody, err := ioutil.ReadAll(resp.Body)
-
-	fmt.Println(string(respBody))
 
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"shch/main/util"
+	"strconv"
 )
 
 func sum(s []int, c chan int) {
@@ -393,7 +394,7 @@ func numPrimeArrangements(n int) int {
 			primeCnt++
 		}
 	}
-    return factorial(n-primeCnt)*factorial(primeCnt)
+	return factorial(n-primeCnt) * factorial(primeCnt)
 }
 
 //求阶乘
@@ -406,8 +407,64 @@ func factorial(n int) int {
 	return result
 }
 
+//旋转数字
+func rotatedDigits(n int) int {
+	var cnt = 0
+	for i := 1; i <= n; i++ {
+		if isNice(i) {
+			cnt++
+		}
+	}
+	return cnt
+}
+
+func isNice(v int) bool {
+	var m = map[uint8]int{
+		0: 0,
+		1: 1,
+		2: 5,
+		5: 2,
+		6: 9,
+		8: 8,
+		9: 6,
+	}
+	var str = strconv.Itoa(v)
+	var res = 0
+	for i := 0; i < len(str); i++ {
+		ch := str[i] - '0'
+		r, ok := m[ch]
+		if !ok {
+			return false
+		}
+		res = res*10 + r
+	}
+	return res != v
+}
+
+func largestTriangleArea(points [][]int) float64 {
+	var ans = 0.0
+	for i := 0; i < len(points); i++ {
+		for j := i + 1; j < len(points); j++ {
+			for k := j + 1; k < len(points); k++ {
+				t := area(points[i], points[j], points[k])
+				if t > ans {
+					ans=t
+				}
+			}
+		}
+	}
+	return ans
+}
+
+//已知三点坐标（a，b）、（c，d）、（e，f），求三角形面积
+func area(P, Q, R []int) float64 {
+	a := float64(P[0]*Q[1] + Q[0]*R[1] + R[0]*P[1] - P[1]*Q[0] - Q[1]*R[0] - R[1]*P[0])
+	return 0.5 * math.Abs(a)
+}
+
 func main() {
 
+	isNice(255)
 	fmt.Println(countPrimeSetBits(244, 269))
 	fmt.Println(convertToBase7(-7))
 	fmt.Println(constructRectangle(4))

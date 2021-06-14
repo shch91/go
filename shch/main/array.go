@@ -788,6 +788,26 @@ func dominantIndex(nums []int) int {
 	return index
 }
 
+func isToeplitzMatrix(matrix [][]int) bool {
+	var r, l = len(matrix), len(matrix[0])
+
+	for i, j := r-1, 0; i >= 0 && j < l; {
+		//循环对脚线元素
+		for s := 1; s <= util.Min(r, l); s++ {
+			if i+s < r && j+s < l  && matrix[i][j]!=matrix[i+s][j+s]{
+             	return  false
+			}
+		}
+		if i==0{
+			j++
+		}else{
+			i--
+		}
+	}
+	return true
+}
+
+
 func main() {
 	fmt.Println(largeGroupPositions("abbxxxxzzy"))
 	fmt.Println(floodFill([][]int{{0, 0, 0}, {0, 1, 1}}, 1, 1, 1))

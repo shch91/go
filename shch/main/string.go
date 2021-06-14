@@ -724,12 +724,12 @@ func nextGreatestLetter(letters []byte, target byte) byte {
 //字符涵盖问题
 func shortestCompletingWord(licensePlate string, words []string) string {
 	var c1 = count(licensePlate)
-	var min ,index= math.MaxInt32,0
+	var min, index = math.MaxInt32, 0
 	for i := 0; i < len(words); i++ {
 		c2 := count(words[i])
 		if dominates(c2, c1) && len(words[i]) < min {
 			min = len(words[i])
-			index=i
+			index = i
 		}
 	}
 	return words[index]
@@ -753,6 +753,42 @@ func count(str string) []int {
 		}
 	}
 	return ans
+}
+
+//
+func numJewelsInStones(jewels string, stones string) int {
+	var ans = 0
+	for i := 0; i < len(stones); i++ {
+		if strings.IndexByte(jewels, stones[i]) > 0 {
+			ans++
+		}
+	}
+	return ans
+}
+
+func toGoatLatin(sentence string) string {
+	var str = strings.Fields(sentence)
+	var ans string
+	var a = "a"
+	for i := 0; i < len(str); i++ {
+		s := str[i]
+		//处理每个单词
+		if isRaw(s[0]) {
+			ans += s + "ma"
+		} else {
+			ans += s[1:] + s[0:1] + "ma"
+		}
+		ans += a
+		a += "a"
+		if i < len(str)-1 {
+			ans += " "
+		}
+	}
+	return ans
+}
+
+func isRaw(ch uint8) bool {
+	return ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u' || ch == 'A' || ch == 'E' || ch == 'I' || ch == 'O' || ch == 'U'
 }
 
 func main() {

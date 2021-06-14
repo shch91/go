@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"shch/main/util"
 )
 
 //自身安全节点
@@ -33,14 +34,20 @@ func dfsGraph(graph [][]int, node int, color []int) bool {
 			return false
 		}
 	}
-    //为终点
+	//为终点
 	color[node] = 2
 	return true
 }
 
 //网络传播延迟dfs
 func networkDelayTime(times [][]int, n int, k int) int {
-     return 0
+
+	return 0
+}
+
+//两个举行是否重叠
+func isRectangleOverlap(rec1 []int, rec2 []int) bool {
+	return util.Min(rec1[2], rec2[2]) > util.Max(rec1[0], rec2[0]) && util.Min(rec1[3], rec2[3]) > util.Max(rec1[1], rec2[1])
 }
 
 func main() {
