@@ -794,19 +794,30 @@ func isToeplitzMatrix(matrix [][]int) bool {
 	for i, j := r-1, 0; i >= 0 && j < l; {
 		//循环对脚线元素
 		for s := 1; s <= util.Min(r, l); s++ {
-			if i+s < r && j+s < l  && matrix[i][j]!=matrix[i+s][j+s]{
-             	return  false
+			if i+s < r && j+s < l && matrix[i][j] != matrix[i+s][j+s] {
+				return false
 			}
 		}
-		if i==0{
+		if i == 0 {
 			j++
-		}else{
+		} else {
 			i--
 		}
 	}
 	return true
 }
 
+func peakIndexInMountainArray(arr []int) int {
+	if len(arr) < 3 {
+		return -1
+	}
+	for i := 1; i < len(arr)-1; i++ {
+		if arr[i] > arr[i-1] && arr[i] > arr[i+1] {
+			return i
+		}
+	}
+	return -1
+}
 
 func main() {
 	fmt.Println(largeGroupPositions("abbxxxxzzy"))

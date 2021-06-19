@@ -791,8 +791,60 @@ func isRaw(ch uint8) bool {
 	return ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u' || ch == 'A' || ch == 'E' || ch == 'I' || ch == 'O' || ch == 'U'
 }
 
+//比较退格字符串
+func backspaceCompare(s string, t string) bool {
+	return build(s) == build(t)
+}
+
+func build(str string) string {
+	var s []byte
+	for i := range str {
+		if str[i] != '#' {
+			s = append(s, str[i])
+		} else if len(s) > 0 {
+			s = s[:len(s)-1]
+		}
+	}
+	return string(s)
+}
+
+func buddyStrings(s string, goal string) bool {
+	if len(s) != len(goal) {
+		return false
+	}
+	if s == goal {
+		var count = make([]int, 26)
+		for i := range s {
+			count[s[i]-'a']++
+		}
+		for i := range count {
+			if count[i] > 1 {
+				return true
+			}
+		}
+		return false
+	} else {
+		var a, b = -1, -1
+		for i := 0; i < len(s); i++ {
+			if s[i] == goal[i] {
+				continue
+			} else {
+				if a == -1 {
+					a = i
+				} else if b == -1 {
+					b = i
+				} else {
+					return false
+				}
+			}
+		}
+		return  b!=-1&&s[a] == goal[b] && s[b] == goal[a]
+	}
+}
+
 func main() {
 	//"PPALLP"
+	fmt.Println(buddyStrings("ab", "ba"))
 	fmt.Println(countBinarySubstrings("00110011"))
 	fmt.Println(judgeCircle("LDRRLRUULR"))
 	fmt.Println(checkRecord("PPALLP"))
