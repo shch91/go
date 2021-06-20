@@ -487,6 +487,8 @@ func countNodes(root *TreeNode) int {
 	return 1 + countNodes(root.Left) + countNodes(root.Right)
 }
 
+
+
 func main() {
 	root := &TreeNode{Val: 5}
 	val3 := &TreeNode{Val: 3}

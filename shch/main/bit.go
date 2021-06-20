@@ -52,7 +52,20 @@ func hasAlternatingBits(n int) bool {
 	return true
 }
 
+//二进制中1的个数
+func bitCount(n int)int{
+	count := 0
+	for n != 0 {
+		count ++
+		n = n & (n - 1)
+	}
+	return count
+}
+
 func main() {
+	for i := 0; i <1000 ; i++ {
+		fmt.Printf(" %d   \n", bitCount(i))
+	}
 	fmt.Println(hasAlternatingBits(6))
 	fmt.Println(findComplement(1))
 	fmt.Println(binaryGap(22))

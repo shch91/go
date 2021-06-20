@@ -509,8 +509,21 @@ func majorityElement(nums []int) []int {
 	return ans
 }
 
+//下载插件
+func leastMinutes(n int) int {
+
+	t := 1
+	var m = 0
+	for t < n {
+		m++
+		t <<= 1
+	}
+	return m + 1
+}
+
 func main() {
 
+	fmt.Println(leastMinutes(4))
 	isNice(255)
 	fmt.Println(countPrimeSetBits(244, 269))
 	fmt.Println(convertToBase7(-7))
