@@ -448,7 +448,7 @@ func largestTriangleArea(points [][]int) float64 {
 			for k := j + 1; k < len(points); k++ {
 				t := area(points[i], points[j], points[k])
 				if t > ans {
-					ans=t
+					ans = t
 				}
 			}
 		}
@@ -460,6 +460,53 @@ func largestTriangleArea(points [][]int) float64 {
 func area(P, Q, R []int) float64 {
 	a := float64(P[0]*Q[1] + Q[0]*R[1] + R[0]*P[1] - P[1]*Q[0] - Q[1]*R[0] - R[1]*P[0])
 	return 0.5 * math.Abs(a)
+}
+
+// 摩尔投票
+func majorityElement(nums []int) []int {
+	if len(nums) == 0 {
+		return nums
+	}
+	var ans []int
+	var cand1, cand2 = nums[0], nums[0]
+	var cnt1, cnt2 = 0, 0
+	for _, v := range nums {
+		if cand1 == v {
+			cnt1++
+			continue
+		}
+		if cand2 == v {
+			cnt2++
+			continue
+		}
+		if cnt1 == 0 {
+			cand1 = v
+			cnt1++
+			continue
+		}
+		if cnt2 == 0 {
+			cand2 = v
+			cnt2++
+			continue
+		}
+		cnt1--
+		cnt2--
+	}
+	cnt1, cnt2 = 0, 0
+	for _, v := range nums {
+		if v == cand1 {
+			cnt1++
+		} else if v == cand2 {
+			cnt2++
+		}
+	}
+	if cnt1 > len(nums)/3 {
+		ans = append(ans, cand1)
+	}
+	if cnt2 > len(nums)/3 {
+		ans = append(ans, cand2)
+	}
+	return ans
 }
 
 func main() {

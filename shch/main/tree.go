@@ -472,11 +472,19 @@ func rangeSumBST(root *TreeNode, low int, high int) int {
 	if root == nil {
 		return 0
 	}
-	var sum=0
-	if root.Val>=low &&root.Val<=high{
-		sum+=root.Val
+	var sum = 0
+	if root.Val >= low && root.Val <= high {
+		sum += root.Val
 	}
-    return sum+rangeSumBST(root.Left,low,high)+rangeSumBST(root.Right,low,high)
+	return sum + rangeSumBST(root.Left, low, high) + rangeSumBST(root.Right, low, high)
+}
+
+//二叉树的节点数量
+func countNodes(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	return 1 + countNodes(root.Left) + countNodes(root.Right)
 }
 
 func main() {
