@@ -23,3 +23,10 @@ func Max(args ...int) int {
 	}
 	return m
 }
+
+func Abs(a,b int) int{
+	if a>b{
+		return a-b
+	}
+	return b-a
+}

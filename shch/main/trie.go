@@ -1,12 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"shch/trie"
+)
 
 //trie树节点
 type TrieNode struct {
 	Char     uint8
 	Children map[uint8]*TrieNode
-	End      int  //构建字典树数组的位置+1
+	End      int //构建字典树数组的位置+1
 }
 
 //新建节点
@@ -64,6 +67,21 @@ func longestWord(words []string) string {
 }
 
 func main() {
-	fmt.Println("apple"<"apply")
-	longestWord([]string{"a", "banana", "app", "appl", "ap", "apply", "apple"})
+	fmt.Println("apple" < "apply")
+	//longestWord([]string{"a", "banana", "app", "appl", "ap", "apply", "apple"})
+
+	trie := trie.NewTrie()
+	words := []string{"Golang", "学院君", "Language", "Trie", "Go"}
+	// 构建 Trie 树
+	for _, word := range words {
+		trie.Insert(word)
+	}
+	// 从 Trie 树中查找字符串
+	term := "学院君"
+	if trie.Find(term) {
+		fmt.Printf("包含单词\"%s\"\n", term)
+	} else {
+		fmt.Printf("不包含单词\"%s\"\n", term)
+	}
+
 }
