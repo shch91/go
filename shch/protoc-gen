@@ -1,0 +1,6 @@
+
+//生成协议文件
+
+protoc --go_out=plugins=grpc:. user.proto
+
+protoc user.proto --go_out=/message/

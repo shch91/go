@@ -488,6 +488,9 @@ func countNodes(root *TreeNode) int {
 }
 
 
+func findFrequentTreeSum(root *TreeNode) []int {
+
+}
 
 func main() {
 	root := &TreeNode{Val: 5}
