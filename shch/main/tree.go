@@ -487,9 +487,30 @@ func countNodes(root *TreeNode) int {
 	return 1 + countNodes(root.Left) + countNodes(root.Right)
 }
 
-
 func findFrequentTreeSum(root *TreeNode) []int {
+	m := make(map[int]int)
+	calSumMap(root, m)
+	var max = math.MinInt32
+	var ans []int
+	for k, v := range m {
+		if v > max {
+			max = v
+			ans = ans[0:0]
+			ans = append(ans, k)
+		} else if v == max {
+			ans = append(ans, k)
+		}
+	}
+	return ans
+}
 
+func calSumMap(root *TreeNode, m map[int]int) int {
+	if root == nil {
+		return 0
+	}
+	sum := root.Val + calSumMap(root.Left, m) + calSumMap(root.Right, m)
+	m[sum]++
+	return sum
 }
 
 func main() {
