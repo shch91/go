@@ -513,6 +513,35 @@ func calSumMap(root *TreeNode, m map[int]int) int {
 	return sum
 }
 
+func largestValues(root *TreeNode) []int {
+	var ans []int
+	if root == nil {
+		return ans
+	}
+	var q []*TreeNode
+	q = append(q, root)
+	for len(q) > 0 {
+		cnt := len(q)
+		max := math.MinInt32
+		for cnt > 0 {
+			cur := q[0]
+			q=q[1:]
+			if cur.Val > max {
+				max = cur.Val
+			}
+			if cur.Left != nil {
+				q = append(q, cur.Left)
+			}
+			if cur.Right != nil {
+				q = append(q, cur.Right)
+			}
+			cnt--
+		}
+		ans = append(ans, max)
+	}
+	return ans
+}
+
 func main() {
 	root := &TreeNode{Val: 5}
 	val3 := &TreeNode{Val: 3}
