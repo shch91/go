@@ -525,7 +525,7 @@ func largestValues(root *TreeNode) []int {
 		max := math.MinInt32
 		for cnt > 0 {
 			cur := q[0]
-			q=q[1:]
+			q = q[1:]
 			if cur.Val > max {
 				max = cur.Val
 			}
@@ -542,20 +542,78 @@ func largestValues(root *TreeNode) []int {
 	return ans
 }
 
+//判断两个节点是否为堂兄弟节点
+func isCousins(root *TreeNode, x int, y int) bool {
+	var px, py = new(int), new(int)
+	Parent(root, px, x)
+	Parent(root, py, y)
+	var lx, ly = new(int), new(int)
+	Level(root, lx, 0, x)
+	Level(root, ly, 0, y)
+	return *px != *py && *lx == *ly
+}
+
+func Parent(root *TreeNode, p *int, v int) {
+	if root == nil {
+		return
+	}
+	if root.Right != nil && root.Right.Val == v {
+		*p = root.Val
+		return
+	}
+	if root.Left != nil && root.Left.Val == v {
+		*p = root.Val
+		return
+	}
+	Parent(root.Left, p, v)
+	if *p > 0 {
+		return
+	}
+	Parent(root.Right, p, v)
+}
+
+func Level(root *TreeNode, l *int, curL, v int) {
+	if root == nil {
+		return
+	}
+	if root.Val == v {
+		*l = curL
+		return
+	}
+	Level(root.Left, l, curL+1, v)
+	if *l > 0 {
+		return
+	}
+	Level(root.Right, l, curL+1, v)
+}
+
+//根结点深度为0
+func deep(root *TreeNode) int {
+	if root == nil {
+		return -1
+	}
+	return 1 + util.Max(deep(root.Left), deep(root.Right))
+}
+
 func main() {
-	root := &TreeNode{Val: 5}
+	root := &TreeNode{Val: 1}
 	val3 := &TreeNode{Val: 3}
 	val2 := &TreeNode{Val: 2}
 	val4 := &TreeNode{Val: 4}
-	val6 := &TreeNode{Val: 6}
-	val7 := &TreeNode{Val: 7}
+	val5 := &TreeNode{Val: 5}
+	//val7 := &TreeNode{Val: 7}
 
-	root.Left = val3
-	root.Right = val6
+	root.Left = val2
+	root.Right = val3
 
-	val3.Left = val2
-	val3.Right = val4
+	val2.Right = val4
+	val3.Right = val5
+	//var l = new(int)
+	var p = new(int)
+	Parent(root, p, 2)
+	fmt.Println(*p)
+	//val6.Right = val7
+	//Level(root, l, 0, 5)
+	//fmt.Println(*l)
 
-	val6.Right = val7
-	fmt.Println(findTarget(root, 9))
 }

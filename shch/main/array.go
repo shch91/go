@@ -822,7 +822,7 @@ func peakIndexInMountainArray(arr []int) int {
 func containsNearbyAlmostDuplicate(nums []int, k int, t int) bool {
 	for i := 0; i < len(nums); i++ {
 		//邻近位置
-		for j := util.Max(i - k,0);  j <= util.Min(i+k,len(nums)-1); j++ {
+		for j := util.Max(i-k, 0); j <= util.Min(i+k, len(nums)-1); j++ {
 			if j != i && util.Abs(nums[i], nums[j]) <= t {
 				return true
 			}
@@ -831,9 +831,22 @@ func containsNearbyAlmostDuplicate(nums []int, k int, t int) bool {
 	return false
 }
 
+func maxArea(height []int) int {
+	var ans = 0
+	for i, j := 0, len(height)-1; i < j; {
+		ans = util.Max((j-i)*util.Min(height[i], height[j]), ans)
+		if height[i] < height[j] {
+			i++
+		} else {
+			j--
+		}
+	}
+	return ans
+}
+
 func main() {
-	fmt.Printf("result=%d \n",-1^1)
-	fmt.Println(containsNearbyAlmostDuplicate([]int{1, 2, 2,3,4,5}, 3, 0))
+	fmt.Printf("result=%d \n", -1^1)
+	fmt.Println(containsNearbyAlmostDuplicate([]int{1, 2, 2, 3, 4, 5}, 3, 0))
 	fmt.Println(largeGroupPositions("abbxxxxzzy"))
 	fmt.Println(floodFill([][]int{{0, 0, 0}, {0, 1, 1}}, 1, 1, 1))
 	fmt.Println(calPoints([]string{"5", "2", "C", "D", "+"}))
