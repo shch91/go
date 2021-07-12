@@ -604,7 +604,7 @@ func recoverTree(root *TreeNode) {
 			stack = append(stack, root)
 			root = root.Left
 		}
-		v:=len(stack)
+		v := len(stack)
 		root = stack[v-1]
 		stack = stack[:v-1]
 		if pred != nil && root.Val < pred.Val {
@@ -621,7 +621,85 @@ func recoverTree(root *TreeNode) {
 	x.Val, y.Val = y.Val, x.Val
 }
 
+/**
+ * 恢复二叉搜索树 中序morris遍历的实现原则
+ *1、如果cur无左孩子，cur向右移动（cur=cur.right）
+ *2、如果cur有左孩子，找到cur左子树上最右的节点，记为mostRight
+ *  2.1如果mostRight的right指针指向空，让其指向cur，cur向左移动（cur=cur.left）
+ *  2.2如果mostRight的right指针指向cur，让其指向空，cur向右移动（cur=cur.right）
+ * @param root
+ */
+func recoverTreeMorris(root *TreeNode) {
+	var x, y, pred, mostRight *TreeNode
+	for root != nil {
+		//有左孩子
+		if root.Left != nil {
+			// predecessor 节点就是当前 root 节点向左走一步，然后一直向右走至无法走为止
+			mostRight = root.Left
+			for mostRight.Right != nil && mostRight.Right != root {
+				mostRight = mostRight.Right
+			}
+			// 让 predecessor 的右指针指向 root，继续遍历左子树
+			if mostRight.Right == nil {
+				mostRight.Right = root
+				root = root.Left
+			} else {
+				// 说明左子树已经访问完了，我们需要断开链接
+				if pred != nil && root.Val < pred.Val {
+					y = root
+					if x == nil {
+						x = pred
+					}
+				}
+				mostRight.Right = nil
+				pred = root
+				root = root.Right
+			}
+		} else { // 如果没有左孩子，则直接访问右孩子
+			if pred != nil && root.Val < pred.Val {
+				y = root
+				if x == nil {
+					x = pred
+				}
+			}
+			pred = root
+			root = root.Right
+		}
+	}
+	x.Val, y.Val = y.Val, x.Val
+}
+
+//用数字1-n生成二叉搜索树
+func generateTrees(n int) []*TreeNode {
+
+	if n == 0 {
+		return []*TreeNode{nil}
+	}
+	return generateTreeRange(1, n)
+}
+func generateTreeRange(s, e int) []*TreeNode {
+	if s > e {
+		return []*TreeNode{nil}
+	}
+	var allTree []*TreeNode
+	for i := s; i <= e; i++ {
+		leftTrees := generateTreeRange(s, i-1)
+		rightTrees := generateTreeRange(i+1, e)
+
+		for _, left := range leftTrees {
+			for _, right := range rightTrees {
+				cur := &TreeNode{Val: i}
+				cur.Left = left
+				cur.Right = right
+				allTree = append(allTree, cur)
+			}
+		}
+	}
+	return allTree
+}
+
 func main() {
+	generateTrees(3)
 	root := &TreeNode{Val: 1}
 	val3 := &TreeNode{Val: 3}
 	val2 := &TreeNode{Val: 2}
