@@ -838,12 +838,31 @@ func buddyStrings(s string, goal string) bool {
 				}
 			}
 		}
-		return  b!=-1&&s[a] == goal[b] && s[b] == goal[a]
+		return b != -1 && s[a] == goal[b] && s[b] == goal[a]
 	}
+}
+
+//字母异位词分组
+func groupAnagrams(strs []string) [][]string {
+	var result [][]string
+	var mp = make(map[string][]string)
+	for i := 0; i < len(strs); i++ {
+		bt := []byte(strs[i])
+		sort.Slice(bt, func(i, j int) bool {
+			return bt[i] > bt[j]
+		})
+
+		mp[string(bt)] = append(mp[string(bt)], strs[i])
+	}
+	for _, s := range mp {
+		result = append(result, s)
+	}
+	return result
 }
 
 func main() {
 	//"PPALLP"
+	fmt.Println(groupAnagrams([]string{"eat","tea","tan","ate","nat","bat"}))
 	fmt.Println(buddyStrings("ab", "ba"))
 	fmt.Println(countBinarySubstrings("00110011"))
 	fmt.Println(judgeCircle("LDRRLRUULR"))

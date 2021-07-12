@@ -35,9 +35,19 @@ func findComplement(num int) int {
 	return num ^ (1<<high - 1)
 }
 
-//二级制中最低位1
+//二进制中最低位1的位置所表示的值
 func binLowOne(t int) int {
 	return t &^ (t - 1)
+}
+//二进制中最低位1的位置,下标从1开始
+func binLowPos(t int) int {
+	v := binLowOne(t)
+	pos := 1
+	for v > 1 {
+		pos++
+		v >>= 1
+	}
+	return pos
 }
 
 //正整数二进制交替
@@ -53,18 +63,26 @@ func hasAlternatingBits(n int) bool {
 }
 
 //二进制中1的个数
-func bitCount(n int)int{
+func bitCount(n int) int {
 	count := 0
 	for n != 0 {
-		count ++
+		count++
 		n = n & (n - 1)
 	}
 	return count
 }
 
+func countBits(n int) []int {
+	var result []int
+	for i := 0; i <= n; i++ {
+		result = append(result, bitCount(i))
+	}
+	return result
+}
+
 func main() {
-	for i := 0; i <1000 ; i++ {
-		fmt.Printf(" %d   \n", bitCount(i))
+	for i := 0; i < 1000; i++ {
+		fmt.Printf(" %d = %d  \n", binLowOne(i),binLowPos(i))
 	}
 	fmt.Println(hasAlternatingBits(6))
 	fmt.Println(findComplement(1))

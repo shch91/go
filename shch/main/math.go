@@ -521,8 +521,26 @@ func leastMinutes(n int) int {
 	return m + 1
 }
 
-func main() {
+//好数字数量
+func countGoodNumbers(n int64) int {
+	return pow(5, (n+1)/2) * pow(4, n/2) % (1e9 + 7)
+}
 
+//x的y次幂
+func pow(x, y int64) int {
+	ret, mul := int64(1), x
+	for y > 0 {
+		if y%2 > 0 {
+			ret = ret * mul % (1e9 + 7)
+		}
+		mul = mul * mul % (1e9 + 7)
+		y >>= 1
+	}
+	return int(ret)
+}
+
+func main() {
+	fmt.Println(pow(2, 4))
 	fmt.Println(leastMinutes(4))
 	isNice(255)
 	fmt.Println(countPrimeSetBits(244, 269))

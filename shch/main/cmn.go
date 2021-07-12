@@ -11,6 +11,54 @@ var (
 	sel    []int
 )
 
+func permute(nums []int) [][]int {
+	var res [][]int
+	perm(nums, 0, len(nums), &res)
+	return res
+}
+
+//全排列数组下标[k,l)
+func perm(nums []int, k, l int, result *[][]int) {
+	if k == l {
+		tmp := make([]int, len(nums))
+		copy(tmp, nums)
+		*result = append(*result, tmp)
+		return
+	}
+	for i := k; i < l; i++ {
+		nums[i], nums[k] = nums[k], nums[i]
+		perm(nums, k+1, l, result)
+		nums[k], nums[i] = nums[i], nums[k]
+	}
+}
+
+//存在重复元素全排列
+func permuteUnique(nums []int) (ans [][]int) {
+	sort.Ints(nums)
+	n := len(nums)
+	var perm []int
+	vis := make([]bool, n)
+	var backtrack func(int)
+	backtrack = func(idx int) {
+		if idx == n {
+			ans = append(ans, append([]int(nil), perm...))
+			return
+		}
+		for i, v := range nums {
+			if vis[i] || i > 0 && !vis[i-1] && v == nums[i-1] {
+				continue
+			}
+			perm = append(perm, v)
+			vis[i] = true
+			backtrack(idx + 1)
+			vis[i] = false
+			perm = perm[:len(perm)-1]
+		}
+	}
+	backtrack(0)
+	return
+}
+
 //选择元素cmn arr原数组,sel已选择小标
 func cmn(arr, sel []int, m, n int) {
 	if n == 0 {
@@ -76,7 +124,6 @@ func purchasePlans(nums []int, target int) int {
 		} else {
 			ans += right - left
 			left++
-
 		}
 		ans %= 1e9 + 7
 	}

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math"
 	"shch/main/util"
 	"strconv"
@@ -595,23 +594,51 @@ func deep(root *TreeNode) int {
 	return 1 + util.Max(deep(root.Left), deep(root.Right))
 }
 
+//恢复二叉搜索树
+func recoverTree(root *TreeNode) {
+
+	var stack []*TreeNode
+	var x, y, pred *TreeNode
+	for len(stack) > 0 || root != nil {
+		for root != nil {
+			stack = append(stack, root)
+			root = root.Left
+		}
+		v:=len(stack)
+		root = stack[v-1]
+		stack = stack[:v-1]
+		if pred != nil && root.Val < pred.Val {
+			y = root
+			if x == nil {
+				x = pred
+			} else {
+				break
+			}
+		}
+		pred = root
+		root = root.Right
+	}
+	x.Val, y.Val = y.Val, x.Val
+}
+
 func main() {
 	root := &TreeNode{Val: 1}
 	val3 := &TreeNode{Val: 3}
 	val2 := &TreeNode{Val: 2}
-	val4 := &TreeNode{Val: 4}
-	val5 := &TreeNode{Val: 5}
+	//val4 := &TreeNode{Val: 4}
+	//val5 := &TreeNode{Val: 5}
 	//val7 := &TreeNode{Val: 7}
 
-	root.Left = val2
-	root.Right = val3
+	root.Left = val3
+	//root.Right = val3
 
-	val2.Right = val4
-	val3.Right = val5
+	//val2.Right = val4
+	val3.Right = val2
+	recoverTree(root)
 	//var l = new(int)
-	var p = new(int)
-	Parent(root, p, 2)
-	fmt.Println(*p)
+	//var p = new(int)
+	//Parent(root, p, 2)
+	//fmt.Println(*p)
 	//val6.Right = val7
 	//Level(root, l, 0, 5)
 	//fmt.Println(*l)
