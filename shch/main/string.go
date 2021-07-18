@@ -860,9 +860,26 @@ func groupAnagrams(strs []string) [][]string {
 	return result
 }
 
+//字符解码总数 动态规划
+func numDecodings(s string) int {
+	n := len(s)
+	f := make([]int, n+1)
+	f[0] = 1
+	for i := 1; i <= n; i++ {
+		if s[i-1]!='0'{
+			f[i]+=f[i-1]
+		}
+		if i > 1 && s[i-2] != '0' && ((s[i-2]-'0')*10+(s[i-1]-'0') <= 26) {
+			f[i] += f[i-2]
+		}
+	}
+	return f[n]
+}
+
 func main() {
 	//"PPALLP"
-	fmt.Println(groupAnagrams([]string{"eat","tea","tan","ate","nat","bat"}))
+	fmt.Println(numDecodings("11106"))
+	fmt.Println(groupAnagrams([]string{"eat", "tea", "tan", "ate", "nat", "bat"}))
 	fmt.Println(buddyStrings("ab", "ba"))
 	fmt.Println(countBinarySubstrings("00110011"))
 	fmt.Println(judgeCircle("LDRRLRUULR"))
