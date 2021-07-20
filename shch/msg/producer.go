@@ -28,17 +28,19 @@ func main() {
 	// 定义一个生产消息，包括Topic、消息内容、
 	msg := &sarama.ProducerMessage{}
 	msg.Topic = "mytopic"
-	msg.Key = sarama.StringEncoder("miles")
-	msg.Value = sarama.StringEncoder("hello world...")
+
 
 	// 发送消息
-	pid, offset, err := client.SendMessage(msg)
+	for i := 0; i <10000 ; i++ {
+		msg.Key = sarama.StringEncoder(fmt.Sprintf("miles-%d",i+1))
+		msg.Value = sarama.StringEncoder(fmt.Sprintf("hello world %d",i+1))
+		pid, offset, err := client.SendMessage(msg)
+		if err != nil {
+			fmt.Println("send message failed,", err)
+			return
+		}
+		fmt.Printf("pid:%v offset:%v\n", pid, offset)
 
-
-	if err != nil {
-		fmt.Println("send message failed,", err)
-		return
 	}
-	fmt.Printf("pid:%v offset:%v\n", pid, offset)
 
 }
